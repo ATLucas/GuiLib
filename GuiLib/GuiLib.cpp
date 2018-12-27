@@ -23,9 +23,13 @@ void Gui::run( void )
 
     m_mainViewInterface = dynamic_pointer_cast<MainViewInterface>( m_mainView );
 
-    updateMainView();
+    // Set the main view to fill the window.
+    m_mainViewInterface->setActualWidth( (float) m_window.getSize().x );
+    m_mainViewInterface->setActualHeight( (float) m_window.getSize().y );
 
     init();
+
+    m_mainViewInterface->update();
 
     while ( m_window.isOpen() )
     {
@@ -39,8 +43,6 @@ void Gui::run( void )
 
         m_window.clear();
 
-        m_mainViewInterface->update();
-
         m_mainViewInterface->draw( m_window );
 
         m_window.display();
@@ -52,11 +54,4 @@ void Gui::run( void )
 std::shared_ptr<View> Gui::getMainView( void )
 {
     return m_mainView;
-}
-
-void Gui::updateMainView( void )
-{
-    // Set the main view to fill the window.
-    m_mainViewInterface->setActualWidth( (float) m_window.getSize().x );
-    m_mainViewInterface->setActualHeight( (float) m_window.getSize().y );
 }

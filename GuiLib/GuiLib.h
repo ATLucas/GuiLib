@@ -35,8 +35,6 @@ public:
 
 private:
 
-    void updateMainView( void );
-
     Config m_config;
 
     sf::RenderWindow m_window;
