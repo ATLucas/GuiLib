@@ -77,3 +77,15 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Custom
+# =========================
+
+SFML-2.5.1/
+.vs/
+*.log
+*.tlog
+*.pdb
+*.iobj
+*.ipdb
+*.vcxproj.user
