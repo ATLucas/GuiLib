@@ -20,6 +20,8 @@ public:
 
     void setHeight( SizeType sizeType, float height = 0 );
 
+    void setColor( sf::Color color );
+
     void setBorderThickness( float thickness );
 
     void setBorderColor( sf::Color color );

@@ -37,6 +37,7 @@ void CubeMaker::init( void )
     shared_ptr<HorizontalView> topMenu = make_shared<HorizontalView>();
     topMenu->setWidth( View::SizeType::Fill );
     topMenu->setHeight( View::SizeType::Percent, 10 );
+    topMenu->setColor( sf::Color( 50, 50, 60 ) );
     topMenu->setBorderThickness( 2 );
 
     // TextDisplay?

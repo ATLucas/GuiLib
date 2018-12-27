@@ -7,7 +7,7 @@ using namespace sf;
 Component::Component( void )
 {
     // Component fill color defaults to black
-    m_shape.setFillColor( sf::Color::Black );
+    setColor( sf::Color::Black );
 
     // Set border shape fill color to transparent
     m_borderShape.setFillColor( sf::Color( 0, 0, 0, 0 ) );
@@ -29,6 +29,11 @@ void Component::setHeight( SizeType sizeType, float height )
 {
     m_requestedHeight.sizeType = sizeType;
     m_requestedHeight.value = height;
+}
+
+void Component::setColor( sf::Color color )
+{
+    m_shape.setFillColor( color );
 }
 
 void Component::setBorderThickness( float thickness )
