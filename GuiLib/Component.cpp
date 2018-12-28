@@ -21,12 +21,18 @@ Component::Component( void )
 
 void Component::setWidth( SizeType sizeType, float width )
 {
+    if ( width < 0 )
+        return;
+
     m_requestedWidth.sizeType = sizeType;
     m_requestedWidth.value = width;
 }
 
 void Component::setHeight( SizeType sizeType, float height )
 {
+    if ( height < 0 )
+        return;
+
     m_requestedHeight.sizeType = sizeType;
     m_requestedHeight.value = height;
 }
@@ -38,6 +44,9 @@ void Component::setColor( sf::Color color )
 
 void Component::setBorderThickness( float thickness )
 {
+    if ( thickness < 0 )
+        return;
+
     m_borderShape.setOutlineThickness( thickness );
     updateBorder();
 }
@@ -49,6 +58,9 @@ void Component::setBorderColor( sf::Color color )
 
 void Component::setPadding( float padding, Side side )
 {
+    if ( padding < 0 )
+        return;
+
     if ( side == Side::All || side == Side::Left || side == Side::LeftAndRight )
         m_leftPadding = padding;
 
@@ -64,6 +76,9 @@ void Component::setPadding( float padding, Side side )
 
 void Component::setMargin( float margin, Side side )
 {
+    if ( margin < 0 )
+        return;
+
     if ( side == Side::All || side == Side::Left || side == Side::LeftAndRight )
         m_leftMargin = margin;
 

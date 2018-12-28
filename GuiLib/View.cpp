@@ -21,7 +21,29 @@ void View::update( void )
     updateChildYValues();
 
     for ( const auto &child : m_children )
+    {
+        // Validate the child's size and position.
+        float minX = m_contentX;
+        float maxX = m_contentX + m_contentWidth;
+        float minY = m_contentY;
+        float maxY = m_contentY + m_contentHeight;
+
+        float childMinX = child->m_actualX - child->m_leftMargin;
+        float childMaxX = child->m_actualX + child->m_actualWidth + child->m_rightMargin;
+        float childMinY = child->m_actualY - child->m_topMargin;
+        float childMaxY = child->m_actualY + child->m_actualHeight + child->m_botMargin;
+
+        if ( childMinX < minX || childMinX > maxX ||
+             childMaxX < minX || childMaxX > maxX ||
+             childMinY < minY || childMinY > maxY ||
+             childMaxY < minY || childMaxY > maxY )
+        {
+            child->m_validSizeAndPosition = false;
+            cerr << "Warning: Found a component with invalid position or size." << endl;
+        }
+
         child->update();
+    }
 }
 
 void View::updateChildWidths( void )
@@ -85,7 +107,11 @@ void View::draw( sf::RenderWindow &window )
     Component::draw( window );
 
     for ( const auto &child : m_children )
-        child->draw( window );
+    {
+        // Only draw the component if it fits in the view.
+        if ( child->m_validSizeAndPosition )
+            child->draw( window );
+    }
 }
 
 void HorizontalView::updateChildWidths( void )

@@ -27,6 +27,9 @@ public:
 
 protected:
 
+    View( void ) : Component() {};
+
+
     // Exposed via MainViewInterface:
 
     virtual void update( void ) override;
@@ -55,13 +58,18 @@ protected:
 
 class LayeredView: public View
 {
-    // Same as default view
+public:
+
+    LayeredView( void ) : View() {};
 
 }; // end class LayeredView
 
 
 class HorizontalView: public View
 {
+public:
+
+    HorizontalView( void ) : View() {};
 
 protected:
 
@@ -74,6 +82,9 @@ protected:
 
 class VerticalView: public View
 {
+public:
+
+    VerticalView( void ) : View() {};
 
 protected:
 

@@ -84,6 +84,8 @@ protected:
     float m_topMargin = 0;
     float m_botMargin = 0;
 
+    bool m_validSizeAndPosition = true;
+
 private:
 
     void updateBorder( void );

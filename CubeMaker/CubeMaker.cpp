@@ -55,6 +55,13 @@ void CubeMaker::init( void )
     firstSelection->setPadding( 10 );
     firstSelection->setMargin( 10 );
 
+    shared_ptr<HorizontalView> fakeSelection = make_shared<HorizontalView>();
+    fakeSelection->setWidth( View::SizeType::Percent, 80 );
+    fakeSelection->setHeight( View::SizeType::Fill );
+    fakeSelection->setBorderThickness( 2 );
+    fakeSelection->setPadding( 10 );
+    fakeSelection->setMargin( 10 );
+
     shared_ptr<TextDisplay> secondSelection = make_shared<TextDisplay>();
     secondSelection->setWidth( View::SizeType::Percent, 10 );
     secondSelection->setHeight( View::SizeType::Fill );
@@ -75,6 +82,7 @@ void CubeMaker::init( void )
     mainView->addChild( topMenu );
     mainView->addChild( canvas );
     topMenu->addChild( firstSelection );
+    topMenu->addChild( fakeSelection );
     topMenu->addChild( secondSelection );
 
     cout << "Done with CubeMaker::init()" << endl;
