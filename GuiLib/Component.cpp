@@ -47,8 +47,43 @@ void Component::setBorderColor( sf::Color color )
     m_borderShape.setOutlineColor( color );
 }
 
+void Component::setPadding( float padding, Side side )
+{
+    if ( side == Side::All || side == Side::Left || side == Side::LeftAndRight )
+        m_leftPadding = padding;
+
+    if ( side == Side::All || side == Side::Right || side == Side::LeftAndRight )
+        m_rightPadding = padding;
+
+    if ( side == Side::All || side == Side::Top || side == Side::TopAndBottom )
+        m_topPadding = padding;
+
+    if ( side == Side::All || side == Side::Bottom || side == Side::TopAndBottom )
+        m_botPadding = padding;
+}
+
+void Component::setMargin( float margin, Side side )
+{
+    if ( side == Side::All || side == Side::Left || side == Side::LeftAndRight )
+        m_leftMargin = margin;
+
+    if ( side == Side::All || side == Side::Right || side == Side::LeftAndRight )
+        m_rightMargin = margin;
+
+    if ( side == Side::All || side == Side::Top || side == Side::TopAndBottom )
+        m_topMargin = margin;
+
+    if ( side == Side::All || side == Side::Bottom || side == Side::TopAndBottom )
+        m_botMargin = margin;
+}
+
 void Component::update( void )
 {
+    m_contentX = m_actualX + m_leftPadding;
+    m_contentY = m_actualY + m_topPadding;
+    m_contentWidth = m_actualWidth - m_leftPadding - m_rightPadding;
+    m_contentHeight = m_actualHeight - m_topPadding - m_botPadding;
+
     m_shape.setSize( Vector2f( m_actualWidth, m_actualHeight ) );
     m_shape.setPosition( Vector2f( m_actualX, m_actualY ) );
 

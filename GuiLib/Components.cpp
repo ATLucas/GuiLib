@@ -29,7 +29,8 @@ void TextDisplay::update( void )
 {
     Component::update();
 
-    m_text.setPosition( m_actualX, m_actualY );
+    m_text.setPosition( m_actualX + m_leftPadding,
+                        m_actualY + m_topPadding );
 }
 
 void TextDisplay::draw( RenderWindow &window )

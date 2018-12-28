@@ -42,24 +42,29 @@ void CubeMaker::init( void )
     topMenu->setHeight( View::SizeType::Percent, 10 );
     topMenu->setColor( sf::Color( 50, 50, 60 ) );
     topMenu->setBorderThickness( 2 );
+    topMenu->setPadding( 10 );
     
     shared_ptr<TextDisplay> firstSelection = make_shared<TextDisplay>();
     firstSelection->setWidth( View::SizeType::Percent, 10 );
-    firstSelection->setHeight( View::SizeType::Percent, 90 );
+    firstSelection->setHeight( View::SizeType::Fill );
     firstSelection->setBorderThickness( 2 );
     firstSelection->setText( "Open" );
     firstSelection->setFont( m_monserratFont );
     firstSelection->setTextSize( 24 );
     firstSelection->setTextColor( sf::Color::White );
+    firstSelection->setPadding( 10 );
+    firstSelection->setMargin( 10 );
 
     shared_ptr<TextDisplay> secondSelection = make_shared<TextDisplay>();
     secondSelection->setWidth( View::SizeType::Percent, 10 );
-    secondSelection->setHeight( View::SizeType::Percent, 90 );
+    secondSelection->setHeight( View::SizeType::Fill );
     secondSelection->setBorderThickness( 2 );
     secondSelection->setText( "Save" );
     secondSelection->setFont( m_monserratFont );
     secondSelection->setTextSize( 24 );
     secondSelection->setTextColor( sf::Color::White );
+    secondSelection->setPadding( 10 );
+    secondSelection->setMargin( 10 );
 
     // Canvas?
     shared_ptr<LayeredView> canvas = make_shared<LayeredView>();

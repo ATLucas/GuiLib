@@ -32,6 +32,21 @@ public:
 
     void setBorderColor( sf::Color color );
 
+    enum class Side
+    {
+        Left,
+        Right,
+        Top,
+        Bottom,
+        LeftAndRight,
+        TopAndBottom,
+        All
+    };
+
+    void setPadding( float padding, Side side = Side::All );
+
+    void setMargin( float margin, Side side = Side::All );
+
 protected:
 
     Component( void );
@@ -53,6 +68,21 @@ protected:
     float m_actualY = 0;
     float m_actualWidth = 0;
     float m_actualHeight = 0;
+
+    float m_contentX = 0;
+    float m_contentY = 0;
+    float m_contentWidth = 0;
+    float m_contentHeight = 0;
+
+    float m_leftPadding = 0;
+    float m_rightPadding = 0;
+    float m_topPadding = 0;
+    float m_botPadding = 0;
+
+    float m_leftMargin = 0;
+    float m_rightMargin = 0;
+    float m_topMargin = 0;
+    float m_botMargin = 0;
 
 private:
 
