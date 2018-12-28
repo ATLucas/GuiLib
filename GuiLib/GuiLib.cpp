@@ -29,7 +29,7 @@ void Gui::run( void )
 
     init();
 
-    m_mainViewInterface->update();
+    m_mainViewInterface->updateSizeAndPostion();
 
     while ( m_window.isOpen() )
     {

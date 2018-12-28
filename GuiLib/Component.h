@@ -26,11 +26,11 @@ public:
 
     void setHeight( SizeType sizeType, float height = 0 );
 
-    void setColor( sf::Color color );
+    void setColor( const sf::Color &color );
 
     void setBorderThickness( float thickness );
 
-    void setBorderColor( sf::Color color );
+    void setBorderColor( const sf::Color &color );
 
     enum class Side
     {
@@ -51,7 +51,7 @@ protected:
 
     Component( void );
 
-    virtual void update( void );
+    virtual void updateSizeAndPostion( void );
 
     virtual void draw( sf::RenderWindow &window );
 

@@ -15,7 +15,7 @@ public:
     
     void setText( const std::string &text );
 
-    virtual void update( void ) override;
+    virtual void updateSizeAndPostion( void ) override;
 
     virtual void draw( sf::RenderWindow &window ) override;
 

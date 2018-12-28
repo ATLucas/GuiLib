@@ -11,9 +11,9 @@ void View::addChild( std::shared_ptr<Component> childView )
     m_children.push_back( childView );
 }
 
-void View::update( void )
+void View::updateSizeAndPostion( void )
 {
-    Component::update();
+    Component::updateSizeAndPostion();
 
     updateChildWidths();
     updateChildHeights();
@@ -42,7 +42,7 @@ void View::update( void )
             cerr << "Warning: Found a component with invalid position or size." << endl;
         }
 
-        child->update();
+        child->updateSizeAndPostion();
     }
 }
 

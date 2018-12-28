@@ -8,7 +8,7 @@ class MainViewInterface
 {
 public:
 
-    virtual void update( void ) = 0;
+    virtual void updateSizeAndPostion( void ) = 0;
 
     virtual void draw( sf::RenderWindow &window ) = 0;
 
@@ -32,7 +32,7 @@ protected:
 
     // Exposed via MainViewInterface:
 
-    virtual void update( void ) override;
+    virtual void updateSizeAndPostion( void ) override;
 
     virtual void draw( sf::RenderWindow &window ) override;
 

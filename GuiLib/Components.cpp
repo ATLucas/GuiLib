@@ -25,9 +25,9 @@ void TextDisplay::setText( const string &text )
     m_text.setString( text );
 }
 
-void TextDisplay::update( void )
+void TextDisplay::updateSizeAndPostion( void )
 {
-    Component::update();
+    Component::updateSizeAndPostion();
 
     m_text.setPosition( m_actualX + m_leftPadding,
                         m_actualY + m_topPadding );

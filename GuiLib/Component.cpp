@@ -37,7 +37,7 @@ void Component::setHeight( SizeType sizeType, float height )
     m_requestedHeight.value = height;
 }
 
-void Component::setColor( sf::Color color )
+void Component::setColor( const sf::Color &color )
 {
     m_shape.setFillColor( color );
 }
@@ -51,7 +51,7 @@ void Component::setBorderThickness( float thickness )
     updateBorder();
 }
 
-void Component::setBorderColor( sf::Color color )
+void Component::setBorderColor( const sf::Color &color )
 {
     m_borderShape.setOutlineColor( color );
 }
@@ -92,7 +92,7 @@ void Component::setMargin( float margin, Side side )
         m_botMargin = margin;
 }
 
-void Component::update( void )
+void Component::updateSizeAndPostion( void )
 {
     m_contentX = m_actualX + m_leftPadding;
     m_contentY = m_actualY + m_topPadding;
