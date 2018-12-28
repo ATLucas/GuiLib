@@ -40,7 +40,13 @@ protected:
 
     // Only used internally by views:
 
-    virtual void updateChildren( void ) = 0;
+    virtual void updateChildWidths( void );
+
+    virtual void updateChildHeights( void );
+
+    virtual void updateChildXValues( void );
+
+    virtual void updateChildYValues( void );
 
     std::vector<std::shared_ptr<Component>> m_children;
 
@@ -49,10 +55,7 @@ protected:
 
 class LayeredView: public View
 {
-
-protected:
-
-    virtual void updateChildren( void ) override;
+    // Same as default view
 
 }; // end class LayeredView
 
@@ -62,7 +65,9 @@ class HorizontalView: public View
 
 protected:
 
-    virtual void updateChildren( void ) override;
+    virtual void updateChildWidths( void ) override;
+
+    virtual void updateChildXValues( void ) override;
 
 }; // end class HorizontalView
 
@@ -72,6 +77,8 @@ class VerticalView: public View
 
 protected:
 
-    virtual void updateChildren( void ) override;
+    virtual void updateChildHeights( void ) override;
+
+    virtual void updateChildYValues( void ) override;
 
 }; // end class VerticalView

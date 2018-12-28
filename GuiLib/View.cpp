@@ -15,20 +15,17 @@ void View::update( void )
 {
     Component::update();
 
-    updateChildren();
-}
-
-void View::draw( sf::RenderWindow &window )
-{
-    Component::draw( window );
+    updateChildWidths();
+    updateChildHeights();
+    updateChildXValues();
+    updateChildYValues();
 
     for ( const auto &child : m_children )
-        child->draw( window );
+        child->update();
 }
 
-void LayeredView::updateChildren( void )
+void View::updateChildWidths( void )
 {
-    // Update widths
     for ( const auto &child : m_children )
     {
         float childHorizontalMargin = child->m_leftMargin + child->m_rightMargin;
@@ -47,8 +44,10 @@ void LayeredView::updateChildren( void )
             child->m_actualWidth = m_contentWidth - childHorizontalMargin;
         }
     }
+}
 
-    // Update heights
+void View::updateChildHeights( void )
+{
     for ( const auto &child : m_children )
     {
         float childVerticalMargin = child->m_topMargin + child->m_botMargin;
@@ -67,25 +66,32 @@ void LayeredView::updateChildren( void )
             child->m_actualHeight = m_contentHeight - childVerticalMargin;
         }
     }
-
-    // Update x values
-    for ( const auto &child : m_children )
-        child->m_actualX = m_contentX;
-
-    // Update y values
-    for ( const auto &child : m_children )
-        child->m_actualY = m_contentY;
-
-    // Recurse
-    for ( const auto &child : m_children )
-        child->update();
 }
 
-void HorizontalView::updateChildren( void )
+void View::updateChildXValues( void )
 {
-    // Update widths
+    for ( const auto &child : m_children )
+        child->m_actualX = m_contentX + child->m_leftMargin;
+}
+
+void View::updateChildYValues( void )
+{
+    for ( const auto &child : m_children )
+        child->m_actualY = m_contentY + child->m_topMargin;
+}
+
+void View::draw( sf::RenderWindow &window )
+{
+    Component::draw( window );
+
+    for ( const auto &child : m_children )
+        child->draw( window );
+}
+
+void HorizontalView::updateChildWidths( void )
+{
     float remainingWidth = m_contentWidth;
-    int numChildrenOfTypeFill = 0;
+    int numFillingChildren = 0;
 
     for ( const auto &child : m_children )
     {
@@ -104,16 +110,16 @@ void HorizontalView::updateChildren( void )
         }
         else if ( child->m_requestedWidth.sizeType == SizeType::Fill )
         {
-            numChildrenOfTypeFill++;
+            numFillingChildren++;
         }
 
         remainingWidth -= child->m_actualWidth + childHorizontalMargin;
         remainingWidth = remainingWidth > 0 ? remainingWidth : 0;
     }
 
-    if ( numChildrenOfTypeFill > 0 )
+    if ( numFillingChildren > 0 )
     {
-        float fillValue = remainingWidth / numChildrenOfTypeFill;
+        float fillValue = remainingWidth / numFillingChildren;
 
         for ( const auto &child : m_children )
         {
@@ -121,28 +127,10 @@ void HorizontalView::updateChildren( void )
                 child->m_actualWidth = fillValue;
         }
     }
+}
 
-    // Update heights
-    for ( const auto &child : m_children )
-    {
-        float childVerticalMargin = child->m_topMargin + child->m_botMargin;
-
-        if ( child->m_requestedHeight.sizeType == SizeType::Absolute )
-        {
-            child->m_actualHeight = child->m_requestedHeight.value;
-        }
-        else if ( child->m_requestedHeight.sizeType == SizeType::Percent )
-        {
-            child->m_actualHeight = child->m_requestedHeight.value * 0.01f * m_contentHeight;
-            child->m_actualHeight -= childVerticalMargin;
-        }
-        else if ( child->m_requestedHeight.sizeType == SizeType::Fill )
-        {
-            child->m_actualHeight = m_contentHeight - childVerticalMargin;
-        }
-    }
-
-    // Update x values
+void HorizontalView::updateChildXValues( void )
+{
     float nextX = m_contentX;
 
     for ( const auto &child : m_children )
@@ -152,41 +140,12 @@ void HorizontalView::updateChildren( void )
         nextX += child->m_actualWidth;
         nextX += child->m_rightMargin;
     }
-
-    // Update y values
-    for ( const auto &child : m_children )
-        child->m_actualY = m_contentY + child->m_topMargin;
-
-    // Recurse
-    for ( const auto &child : m_children )
-        child->update();
 }
 
-void VerticalView::updateChildren( void )
+void VerticalView::updateChildHeights( void )
 {
-    // Update widths
-    for ( const auto &child : m_children )
-    {
-        float childHorizontalMargin = child->m_leftMargin + child->m_rightMargin;
-
-        if ( child->m_requestedWidth.sizeType == SizeType::Absolute )
-        {
-            child->m_actualWidth = child->m_requestedWidth.value;
-        }
-        else if ( child->m_requestedWidth.sizeType == SizeType::Percent )
-        {
-            child->m_actualWidth = child->m_requestedWidth.value * 0.01f * m_contentWidth;
-            child->m_actualWidth -= childHorizontalMargin;
-        }
-        else if ( child->m_requestedWidth.sizeType == SizeType::Fill )
-        {
-            child->m_actualWidth = m_contentWidth - childHorizontalMargin;
-        }
-    }
-
-    // Update heights
     float remainingHeight = m_contentHeight;
-    int numChildrenOfTypeFill = 0;
+    int numFillingChildren = 0;
 
     for ( const auto &child : m_children )
     {
@@ -205,16 +164,16 @@ void VerticalView::updateChildren( void )
         }
         else if ( child->m_requestedHeight.sizeType == SizeType::Fill )
         {
-            numChildrenOfTypeFill++;
+            numFillingChildren++;
         }
 
         remainingHeight -= child->m_actualHeight + childVerticalMargin;
         remainingHeight = remainingHeight > 0 ? remainingHeight : 0;
     }
 
-    if ( numChildrenOfTypeFill > 0 )
+    if ( numFillingChildren > 0 )
     {
-        float fillValue = remainingHeight / numChildrenOfTypeFill;
+        float fillValue = remainingHeight / numFillingChildren;
 
         for ( const auto &child : m_children )
         {
@@ -222,12 +181,10 @@ void VerticalView::updateChildren( void )
                 child->m_actualHeight = fillValue;
         }
     }
+}
 
-    // Update x values
-    for ( const auto &child : m_children )
-        child->m_actualX = m_contentX + child->m_leftMargin;
-
-    // Update y values
+void VerticalView::updateChildYValues( void )
+{
     float nextY = m_actualY;
 
     for ( const auto &child : m_children )
@@ -237,8 +194,4 @@ void VerticalView::updateChildren( void )
         nextY += child->m_actualHeight;
         nextY += child->m_botMargin;
     }
-
-    // Recurse
-    for ( const auto &child : m_children )
-        child->update();
 }
