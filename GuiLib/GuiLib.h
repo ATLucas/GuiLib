@@ -1,6 +1,7 @@
 #pragma once
 
 #include "View.h"
+#include "Components.h"
 
 
 class Gui

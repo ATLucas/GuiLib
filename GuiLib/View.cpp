@@ -6,9 +6,8 @@
 using namespace std;
 
 
-void View::addChild( std::shared_ptr<View> childView )
+void View::addChild( std::shared_ptr<Component> childView )
 {
-    childView->m_parent = this;
     m_children.push_back( childView );
 }
 

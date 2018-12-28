@@ -21,14 +21,9 @@ public:
 
 class View: public Component, public MainViewInterface
 {
-    friend class LayeredView;
-    friend class HorizontalView;
-    friend class VerticalView;
-
 public:
 
-    void addChild( std::shared_ptr<View> childView );
-
+    void addChild( std::shared_ptr<Component> childView );
 
 protected:
 
@@ -47,20 +42,13 @@ protected:
 
     virtual void updateChildren( void ) = 0;
 
-
-    View *m_parent = nullptr;
-
-    std::vector<std::shared_ptr<View>> m_children;
+    std::vector<std::shared_ptr<Component>> m_children;
 
 }; // end class View
 
 
 class LayeredView: public View
 {
-
-public:
-
-    LayeredView( void ) : View() {}
 
 protected:
 
@@ -72,10 +60,6 @@ protected:
 class HorizontalView: public View
 {
 
-public:
-
-    HorizontalView( void ) : View() {}
-
 protected:
 
     virtual void updateChildren( void ) override;
@@ -85,10 +69,6 @@ protected:
 
 class VerticalView: public View
 {
-
-public:
-
-    VerticalView( void ) : View() {}
 
 protected:
 

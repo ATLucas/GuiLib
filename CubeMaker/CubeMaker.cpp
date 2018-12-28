@@ -13,7 +13,6 @@ int main( void )
     return 0;
 }
 
-
 Gui::Config CubeMaker::getConfig( void )
 {
     Gui::Config config;
@@ -27,10 +26,14 @@ Gui::Config CubeMaker::getConfig( void )
     return config;
 }
 
-
 void CubeMaker::init( void )
 {
     cout << "Beginning CubeMaker::init()" << endl;
+
+    string fontLocation = "fonts/Montserrat/Montserrat-Medium.ttf";
+
+    if ( !m_monserratFont.loadFromFile( fontLocation ) )
+        cerr << "Failed to load font: " << fontLocation << endl;
 
     shared_ptr<View> mainView = getMainView();
 
@@ -39,18 +42,24 @@ void CubeMaker::init( void )
     topMenu->setHeight( View::SizeType::Percent, 10 );
     topMenu->setColor( sf::Color( 50, 50, 60 ) );
     topMenu->setBorderThickness( 2 );
-
-    // TextDisplay?
-    shared_ptr<LayeredView> firstSelection = make_shared<LayeredView>();
+    
+    shared_ptr<TextDisplay> firstSelection = make_shared<TextDisplay>();
     firstSelection->setWidth( View::SizeType::Percent, 10 );
     firstSelection->setHeight( View::SizeType::Percent, 90 );
     firstSelection->setBorderThickness( 2 );
+    firstSelection->setText( "Open" );
+    firstSelection->setFont( m_monserratFont );
+    firstSelection->setTextSize( 24 );
+    firstSelection->setTextColor( sf::Color::White );
 
-    // TextDisplay?
-    shared_ptr<LayeredView> secondSelection = make_shared<LayeredView>();
+    shared_ptr<TextDisplay> secondSelection = make_shared<TextDisplay>();
     secondSelection->setWidth( View::SizeType::Percent, 10 );
     secondSelection->setHeight( View::SizeType::Percent, 90 );
     secondSelection->setBorderThickness( 2 );
+    secondSelection->setText( "Save" );
+    secondSelection->setFont( m_monserratFont );
+    secondSelection->setTextSize( 24 );
+    secondSelection->setTextColor( sf::Color::White );
 
     // Canvas?
     shared_ptr<LayeredView> canvas = make_shared<LayeredView>();
@@ -65,7 +74,6 @@ void CubeMaker::init( void )
 
     cout << "Done with CubeMaker::init()" << endl;
 }
-
 
 void CubeMaker::shutdown( void )
 {

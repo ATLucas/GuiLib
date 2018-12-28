@@ -12,4 +12,6 @@ private:
     virtual void init( void ) override;
 
     virtual void shutdown( void ) override;
+
+    sf::Font m_monserratFont;
 };

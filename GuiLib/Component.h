@@ -6,6 +6,12 @@
 
 class Component
 {
+    // Declare views to be friends so that they can
+    // access the protected members of their children.
+    friend class View;
+    friend class LayeredView;
+    friend class HorizontalView;
+    friend class VerticalView;
 
 public:
 
@@ -34,8 +40,6 @@ protected:
 
     virtual void draw( sf::RenderWindow &window );
 
-    void updateBorder( void );
-
     struct SizeRequest
     {
         SizeType sizeType = SizeType::Absolute;
@@ -49,6 +53,10 @@ protected:
     float m_actualY = 0;
     float m_actualWidth = 0;
     float m_actualHeight = 0;
+
+private:
+
+    void updateBorder( void );
 
     sf::RectangleShape m_shape;
     sf::RectangleShape m_borderShape;

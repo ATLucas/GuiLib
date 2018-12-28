@@ -4,10 +4,12 @@
     <ClInclude Include="GuiLib.h" />
     <ClInclude Include="View.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Components.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GuiLib.cpp" />
     <ClCompile Include="View.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Components.cpp" />
   </ItemGroup>
 </Project>
