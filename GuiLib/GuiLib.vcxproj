@@ -135,12 +135,14 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Canvas3D.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="GuiLib.h" />
     <ClInclude Include="View.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Canvas3D.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="GuiLib.cpp" />

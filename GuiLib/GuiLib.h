@@ -2,6 +2,7 @@
 
 #include "View.h"
 #include "Components.h"
+#include "Canvas3D.h"
 
 
 class Gui

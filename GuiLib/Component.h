@@ -76,9 +76,9 @@ protected:
 
     virtual void onTextEntered( char c );
 
-    virtual float getFitWidth( void ) = 0;
+    virtual float getFitWidth( void ) { return 0; }
 
-    virtual float getFitHeight( void ) = 0;
+    virtual float getFitHeight( void ) { return 0; }
 
     bool containsPoint( int x, int y );
 

@@ -80,7 +80,7 @@ void CubeMaker::init( void )
     textInput->setBorderColor( sf::Color::Green, Component::Mode::Active );
     textInput->setListener( &m_textInputListener );
 
-    shared_ptr<LayeredView> canvas = make_shared<LayeredView>( "Canvas" );
+    shared_ptr<Canvas3D> canvas = make_shared<Canvas3D>( "Canvas" );
     canvas->setWidth( Component::SizeType::Fill );
     canvas->setHeight( Component::SizeType::Fill );
 
