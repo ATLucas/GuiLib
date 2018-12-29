@@ -74,6 +74,8 @@ protected:
 
     virtual void onMouseMoved( int x, int y );
 
+    virtual void onTextEntered( char c );
+
     virtual float getFitWidth( void ) = 0;
 
     virtual float getFitHeight( void ) = 0;

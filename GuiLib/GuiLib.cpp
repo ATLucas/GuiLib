@@ -40,8 +40,10 @@ void Gui::run( void )
             if ( event.type == sf::Event::Closed )
             {
                 m_window.close();
+                break;
             }
-            else if ( event.type == sf::Event::Resized )
+            
+            if ( event.type == sf::Event::Resized )
             {
                 // Adjust the SFML view.
                 m_window.setView( sf::View(
@@ -50,18 +52,12 @@ void Gui::run( void )
                 // Set the size of the main view.
                 m_mainViewInterface->setActualWidth( (float) event.size.width );
                 m_mainViewInterface->setActualHeight( (float) event.size.height );
-
-                // Update the view hierarchy.
-                m_mainViewInterface->updateSizeAndPostion();
             }
             else if ( event.type == sf::Event::MouseButtonPressed )
             {
                 if ( event.mouseButton.button == 0 )
                 {
                     m_mainViewInterface->onMousePressed( event.mouseButton.x, event.mouseButton.y );
-
-                    // Update the view hierarchy.
-                    m_mainViewInterface->updateSizeAndPostion();
                 }
             }
             else if ( event.type == sf::Event::MouseButtonReleased )
@@ -69,18 +65,20 @@ void Gui::run( void )
                 if ( event.mouseButton.button == 0 )
                 {
                     m_mainViewInterface->onMouseReleased( event.mouseButton.x, event.mouseButton.y );
-
-                    // Update the view hierarchy.
-                    m_mainViewInterface->updateSizeAndPostion();
                 }
             }
             else if ( event.type == sf::Event::MouseMoved )
             {
                 m_mainViewInterface->onMouseMoved( event.mouseMove.x, event.mouseMove.y );
-
-                // Update the view hierarchy.
-                m_mainViewInterface->updateSizeAndPostion();
             }
+            else if ( event.type == sf::Event::TextEntered )
+            {
+                if ( event.text.unicode < 128 )
+                    m_mainViewInterface->onTextEntered( static_cast<char>( event.text.unicode ) );
+            }
+
+            // Update the view hierarchy.
+            m_mainViewInterface->updateSizeAndPostion();
         }
 
         m_window.clear();

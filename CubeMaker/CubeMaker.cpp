@@ -68,6 +68,18 @@ void CubeMaker::init( void )
     saveButton->setBorderColor( sf::Color::Green, Component::Mode::Hovering );
     saveButton->setListener( &m_saveButtonListener );
 
+    shared_ptr<TextInput> textInput = make_shared<TextInput>( "Text Input" );
+    textInput->setWidth( Component::SizeType::Fill );
+    textInput->setHeight( Component::SizeType::Fill );
+    textInput->setFont( m_monserratFont );
+    textInput->setTextSize( 24 );
+    textInput->setTextColor( sf::Color::White );
+    textInput->setPadding( 10 );
+    textInput->setMargin( 10 );
+    textInput->setBorderThickness( 1, Component::Mode::Active );
+    textInput->setBorderColor( sf::Color::Green, Component::Mode::Active );
+    textInput->setListener( &m_textInputListener );
+
     shared_ptr<LayeredView> canvas = make_shared<LayeredView>( "Canvas" );
     canvas->setWidth( Component::SizeType::Fill );
     canvas->setHeight( Component::SizeType::Fill );
@@ -76,6 +88,7 @@ void CubeMaker::init( void )
     mainView->addChild( canvas );
     topMenu->addChild( openButton );
     topMenu->addChild( saveButton );
+    topMenu->addChild( textInput );
 }
 
 void CubeMaker::shutdown( void )
@@ -91,4 +104,9 @@ void CubeMaker::OpenButtonListener::onClicked( void )
 void CubeMaker::SaveButtonListener::onClicked( void )
 {
     cout << "Clicked the save button" << endl;
+}
+
+void CubeMaker::TextInputListener::onTextSubmitted( const std::string &text )
+{
+    cout << "Received submitted text: " << text << endl;
 }

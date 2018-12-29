@@ -31,7 +31,7 @@ public:
 
     virtual float getFitHeight( void ) override;
 
-private:
+protected:
 
     sf::Text m_text;
 };
@@ -56,6 +56,32 @@ protected:
     virtual void onMousePressed( int x, int y ) override;
 
     virtual void onMouseReleased( int x, int y ) override;
+
+private:
+
+    Listener *m_listener = nullptr;
+};
+
+class TextInput: public TextDisplay
+{
+public:
+
+    class Listener
+    {
+    public:
+
+        virtual void onTextSubmitted( const std::string &text ) = 0;
+    };
+
+    TextInput( const std::string &name = "<NameNotSet>" ) : TextDisplay( name ) {};
+
+    void setListener( Listener *listener ) { m_listener = listener; }
+
+protected:
+
+    virtual void onMousePressed( int x, int y ) override;
+
+    virtual void onTextEntered( char c ) override;
 
 private:
 

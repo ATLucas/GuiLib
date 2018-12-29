@@ -17,6 +17,11 @@ private:
         void onClicked( void );
     };
 
+    class TextInputListener: public TextInput::Listener
+    {
+        void onTextSubmitted( const std::string &text );
+    };
+
     virtual Config getConfig( void ) override;
 
     virtual void init( void ) override;
@@ -28,4 +33,6 @@ private:
     OpenButtonListener m_openButtonListener;
 
     SaveButtonListener m_saveButtonListener;
+
+    TextInputListener m_textInputListener;
 };

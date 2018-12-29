@@ -215,6 +215,11 @@ void Component::onMouseMoved( int x, int y )
     }
 }
 
+void Component::onTextEntered( char c )
+{
+
+}
+
 bool Component::containsPoint( int x, int y )
 {
     float minX = m_actualX;

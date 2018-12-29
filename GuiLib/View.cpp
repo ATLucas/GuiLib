@@ -146,6 +146,12 @@ void View::onMouseMoved( int x, int y )
         child->onMouseMoved( x, y );
 }
 
+void View::onTextEntered( char c )
+{
+    for ( const auto &child : m_children )
+        child->onTextEntered( c );
+}
+
 float View::getFitWidth( void )
 {
     float fitWidth = 0;

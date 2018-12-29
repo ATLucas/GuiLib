@@ -18,6 +18,8 @@ public:
 
     virtual void onMouseMoved( int x, int y ) = 0;
 
+    virtual void onTextEntered( char c ) = 0;
+
     virtual void setActualWidth( float width ) = 0;
 
     virtual void setActualHeight( float width ) = 0;
@@ -54,6 +56,8 @@ protected:
     virtual void onMouseReleased( int x, int y ) override;
 
     virtual void onMouseMoved( int x, int y ) override;
+
+    virtual void onTextEntered( char c ) override;
 
     virtual float getFitWidth( void ) override;
 

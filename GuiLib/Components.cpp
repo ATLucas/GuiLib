@@ -30,8 +30,8 @@ void TextDisplay::updateSizeAndPostion( void )
 {
     Component::updateSizeAndPostion();
 
-    m_text.setPosition( m_actualX + getModeState().leftPadding - m_text.getLocalBounds().left,
-                        m_actualY + getModeState().topPadding - m_text.getLocalBounds().top );
+    m_text.setPosition( m_actualX + getModeState().leftPadding,
+                        m_actualY + getModeState().topPadding );
 }
 
 void TextDisplay::draw( RenderWindow &window )
@@ -46,16 +46,14 @@ float TextDisplay::getFitWidth( void )
 {
     return m_text.getLocalBounds().width +
         getModeState().leftPadding +
-        getModeState().rightPadding -
-        m_text.getLocalBounds().left;
+        getModeState().rightPadding;
 }
 
 float TextDisplay::getFitHeight( void )
 {
     return m_text.getCharacterSize() +
         getModeState().topPadding +
-        getModeState().botPadding -
-        m_text.getLocalBounds().top;
+        getModeState().botPadding;
 }
 
 void Button::onMousePressed( int x, int y )
@@ -78,5 +76,46 @@ void Button::onMouseReleased( int x, int y )
 
         if ( m_listener )
             m_listener->onClicked();
+    }
+}
+
+void TextInput::onMousePressed( int x, int y )
+{
+    if ( containsPoint( x, y ) )
+    {
+        if ( getMode() != Mode::Active )
+            setMode( Mode::Active );
+    }
+    else
+    {
+        if ( getMode() == Mode::Active )
+            setMode( Mode::Inactive );
+    }
+}
+
+void TextInput::onTextEntered( char c )
+{
+    if ( getMode() == Mode::Active )
+    {
+        string text = m_text.getString();
+
+        if ( c == '\r' )
+        {
+            if ( m_listener )
+                m_listener->onTextSubmitted( text );
+
+            text = "";
+        }
+        else if ( c == '\b' )
+        {
+            if ( text.size() > 0 )
+                text = text.substr(0, text.size() - 1);
+        }
+        else
+        {
+            text += c;
+        }
+
+        m_text.setString( text );
     }
 }
