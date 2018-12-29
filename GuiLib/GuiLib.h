@@ -27,7 +27,7 @@ public:
 
     virtual Config getConfig( void ) = 0;
 
-    virtual void init( void ) = 0;
+    virtual void initialize( void ) = 0;
 
     virtual void shutdown( void ) = 0;
 

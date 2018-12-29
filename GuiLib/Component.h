@@ -64,7 +64,9 @@ protected:
 
     Component( const std::string &name );
 
-    virtual void updateSizeAndPostion( void );
+    virtual void initialize( sf::RenderWindow &window );
+
+    virtual void updateSizeAndPostion( sf::RenderWindow &window );
 
     virtual void draw( sf::RenderWindow &window );
 

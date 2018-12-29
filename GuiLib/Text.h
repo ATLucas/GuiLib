@@ -20,7 +20,7 @@ public:
 
     // Overrides of existing Component functions:
 
-    virtual void updateSizeAndPostion( void ) override;
+    virtual void updateSizeAndPostion( sf::RenderWindow &window ) override;
 
     virtual void draw( sf::RenderWindow &window ) override;
 

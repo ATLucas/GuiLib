@@ -1,6 +1,5 @@
 
 #include "Text.h"
-#include <iostream>
 
 using namespace sf;
 using namespace std;
@@ -26,9 +25,9 @@ void TextDisplay::setText( const string &text )
     m_text.setString( text );
 }
 
-void TextDisplay::updateSizeAndPostion( void )
+void TextDisplay::updateSizeAndPostion( sf::RenderWindow &window )
 {
-    Component::updateSizeAndPostion();
+    Component::updateSizeAndPostion( window );
 
     m_text.setPosition( m_actualX + getModeState().leftPadding,
                         m_actualY + getModeState().topPadding );

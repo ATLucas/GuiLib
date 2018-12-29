@@ -2,7 +2,6 @@
 #include "View.h"
 #include <iostream>
 
-
 using namespace std;
 
 
@@ -11,9 +10,17 @@ void View::addChild( std::shared_ptr<Component> childView )
     m_children.push_back( childView );
 }
 
-void View::updateSizeAndPostion( void )
+void View::initialize( sf::RenderWindow &window )
 {
-    Component::updateSizeAndPostion();
+    Component::initialize( window );
+
+    for ( const auto &child : m_children )
+        child->initialize( window );
+}
+
+void View::updateSizeAndPostion( sf::RenderWindow &window )
+{
+    Component::updateSizeAndPostion( window );
 
     updateChildWidths();
     updateChildHeights();
@@ -44,7 +51,7 @@ void View::updateSizeAndPostion( void )
             cerr << "Warning: " << child->m_name << " has invalid size or position." << endl;
         }
 
-        child->updateSizeAndPostion();
+        child->updateSizeAndPostion( window );
     }
 }
 

@@ -25,6 +25,43 @@ Component::Component( const string &name ): m_name( name )
     }
 }
 
+void Component::initialize( sf::RenderWindow &window )
+{
+
+}
+
+void Component::updateSizeAndPostion( sf::RenderWindow &window )
+{
+    ModeState &modeState = getModeState();
+
+    float leftPadding = modeState.leftPadding;
+    float topPadding = modeState.topPadding;
+    float rightPadding = modeState.rightPadding;
+    float botPadding = modeState.botPadding;
+
+    m_contentX = m_actualX + leftPadding;
+    m_contentY = m_actualY + topPadding;
+    m_contentWidth = m_actualWidth - leftPadding - rightPadding;
+    m_contentHeight = m_actualHeight - topPadding - botPadding;
+
+    modeState.shape.setSize( Vector2f( m_actualWidth, m_actualHeight ) );
+    modeState.shape.setPosition( Vector2f( m_actualX, m_actualY ) );
+
+    float borderThickness = modeState.borderShape.getOutlineThickness();
+
+    modeState.borderShape.setPosition( m_actualX + borderThickness,
+                                       m_actualY + borderThickness );
+
+    modeState.borderShape.setSize( sf::Vector2f( m_actualWidth - 2 * borderThickness,
+                                                 m_actualHeight - 2 * borderThickness ) );
+}
+
+void Component::draw( sf::RenderWindow &window )
+{
+    window.draw( getModeState().shape );
+    window.draw( getModeState().borderShape );
+}
+
 void Component::setWidth( SizeType sizeType, float width, Mode mode )
 {
     if ( width < 0 )
@@ -157,38 +194,6 @@ void Component::setMargin( float margin, Side side, Mode mode )
         if ( side == Side::All || side == Side::Bottom || side == Side::TopAndBottom )
             modeState.botMargin = margin;
     }
-}
-
-void Component::updateSizeAndPostion( void )
-{
-    ModeState &modeState = getModeState();
-
-    float leftPadding = modeState.leftPadding;
-    float topPadding = modeState.topPadding;
-    float rightPadding = modeState.rightPadding;
-    float botPadding = modeState.botPadding;
-
-    m_contentX = m_actualX + leftPadding;
-    m_contentY = m_actualY + topPadding;
-    m_contentWidth = m_actualWidth - leftPadding - rightPadding;
-    m_contentHeight = m_actualHeight - topPadding - botPadding;
-
-    modeState.shape.setSize( Vector2f( m_actualWidth, m_actualHeight ) );
-    modeState.shape.setPosition( Vector2f( m_actualX, m_actualY ) );
-
-    float borderThickness = modeState.borderShape.getOutlineThickness();
-
-    modeState.borderShape.setPosition( m_actualX + borderThickness,
-                                       m_actualY + borderThickness );
-
-    modeState.borderShape.setSize( sf::Vector2f( m_actualWidth - 2 * borderThickness,
-                                                 m_actualHeight - 2 * borderThickness ) );
-}
-
-void Component::draw( sf::RenderWindow &window )
-{
-    window.draw( getModeState().shape );
-    window.draw( getModeState().borderShape );
 }
 
 void Component::onMousePressed( int x, int y )

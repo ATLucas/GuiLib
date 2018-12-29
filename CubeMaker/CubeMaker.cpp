@@ -25,7 +25,7 @@ Gui::Config CubeMaker::getConfig( void )
     return config;
 }
 
-void CubeMaker::init( void )
+void CubeMaker::initialize( void )
 {
     string fontLocation = "fonts/Montserrat/Montserrat-Medium.ttf";
 

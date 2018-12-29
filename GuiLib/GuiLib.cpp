@@ -8,9 +8,13 @@ void Gui::run( void )
 {
     m_config = getConfig();
 
+    sf::ContextSettings contextSettings;
+    contextSettings.depthBits = 24;
+
     m_window.create( sf::VideoMode( m_config.width, m_config.height ),
                      m_config.title,
-                     m_config.isFullscreen ? sf::Style::Fullscreen : sf::Style::Default );
+                     m_config.isFullscreen ? sf::Style::Fullscreen : sf::Style::Default,
+                     contextSettings );
 
     m_window.setVerticalSyncEnabled( true );
 
@@ -27,9 +31,11 @@ void Gui::run( void )
     m_mainViewInterface->setActualWidth( (float) m_window.getSize().x );
     m_mainViewInterface->setActualHeight( (float) m_window.getSize().y );
 
-    init();
+    initialize();
 
-    m_mainViewInterface->updateSizeAndPostion();
+    m_mainViewInterface->initialize( m_window );
+
+    m_mainViewInterface->updateSizeAndPostion( m_window );
 
     while ( m_window.isOpen() )
     {
@@ -78,7 +84,7 @@ void Gui::run( void )
             }
 
             // Update the view hierarchy.
-            m_mainViewInterface->updateSizeAndPostion();
+            m_mainViewInterface->updateSizeAndPostion( m_window );
         }
 
         m_window.clear();
