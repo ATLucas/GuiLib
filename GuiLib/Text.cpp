@@ -1,5 +1,5 @@
 
-#include "Components.h"
+#include "Text.h"
 #include <iostream>
 
 using namespace sf;

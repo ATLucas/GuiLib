@@ -1,7 +1,7 @@
 #pragma once
 
 #include "View.h"
-#include "Components.h"
+#include "Text.h"
 #include "Canvas3D.h"
 
 
