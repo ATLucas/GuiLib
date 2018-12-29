@@ -38,7 +38,22 @@ void Gui::run( void )
         while ( m_window.pollEvent( event ) )
         {
             if ( event.type == sf::Event::Closed )
+            {
                 m_window.close();
+            }
+            else if ( event.type == sf::Event::Resized )
+            {
+                // Adjust the SFML view.
+                m_window.setView( sf::View(
+                    sf::FloatRect( 0.0f, 0.0f, (float) event.size.width, (float) event.size.height ) ) );
+
+                // Set the size of the main view.
+                m_mainViewInterface->setActualWidth( (float) event.size.width );
+                m_mainViewInterface->setActualHeight( (float) event.size.height );
+
+                // Update the view hierarchy.
+                m_mainViewInterface->updateSizeAndPostion();
+            }
         }
 
         m_window.clear();
