@@ -54,6 +54,27 @@ void Gui::run( void )
                 // Update the view hierarchy.
                 m_mainViewInterface->updateSizeAndPostion();
             }
+            else if ( event.type == sf::Event::MouseButtonPressed )
+            {
+                if ( event.mouseButton.button == 0 )
+                {
+                    m_mainViewInterface->onMousePressed( event.mouseButton.x, event.mouseButton.y );
+                    m_mainViewInterface->updateSizeAndPostion();
+                }
+            }
+            else if ( event.type == sf::Event::MouseButtonReleased )
+            {
+                if ( event.mouseButton.button == 0 )
+                {
+                    m_mainViewInterface->onMouseReleased( event.mouseButton.x, event.mouseButton.y );
+                    m_mainViewInterface->updateSizeAndPostion();
+                }
+            }
+            else if ( event.type == sf::Event::MouseMoved )
+            {
+                m_mainViewInterface->onMouseMoved( event.mouseMove.x, event.mouseMove.y );
+                m_mainViewInterface->updateSizeAndPostion();
+            }
         }
 
         m_window.clear();

@@ -16,6 +16,14 @@ class Component
 
 public:
 
+    enum class State
+    {
+        All,
+        Active,
+        Inactive,
+        Hovering
+    };
+
     enum class SizeType
     {
         Absolute,
@@ -36,13 +44,13 @@ public:
 
     enum class Side
     {
+        All,
         Left,
         Right,
         Top,
         Bottom,
         LeftAndRight,
-        TopAndBottom,
-        All
+        TopAndBottom
     };
 
     void setPadding( float padding, Side side = Side::All );
@@ -57,9 +65,17 @@ protected:
 
     virtual void draw( sf::RenderWindow &window );
 
+    virtual void onMousePressed( int x, int y );
+
+    virtual void onMouseReleased( int x, int y );
+
+    virtual void onMouseMoved( int x, int y );
+
     virtual float getFitWidth( void ) = 0;
 
     virtual float getFitHeight( void ) = 0;
+
+    State m_state = State::Inactive;
 
     struct SizeRequest
     {
@@ -97,6 +113,8 @@ protected:
 private:
 
     void updateBorder( void );
+
+    bool containsPoint( int x, int y );
 
     sf::RectangleShape m_shape;
     sf::RectangleShape m_borderShape;

@@ -99,20 +99,6 @@ void Component::updateSizeAndPostion( void )
     m_contentWidth = m_actualWidth - m_leftPadding - m_rightPadding;
     m_contentHeight = m_actualHeight - m_topPadding - m_botPadding;
 
-    cout << m_name << " (actual): "
-        << m_actualX << ", "
-        << m_actualY << ", "
-        << m_actualWidth << ", "
-        << m_actualHeight
-        << endl;
-
-    cout << m_name << " (content): "
-        << m_contentX << ", "
-        << m_contentY << ", "
-        << m_contentWidth << ", "
-        << m_contentHeight
-        << endl;
-
     m_shape.setSize( Vector2f( m_actualWidth, m_actualHeight ) );
     m_shape.setPosition( Vector2f( m_actualX, m_actualY ) );
 
@@ -125,6 +111,30 @@ void Component::draw( sf::RenderWindow &window )
     window.draw( m_borderShape );
 }
 
+void Component::onMousePressed( int x, int y )
+{
+
+}
+
+void Component::onMouseReleased( int x, int y )
+{
+
+}
+
+void Component::onMouseMoved( int x, int y )
+{
+    if ( containsPoint( x, y ) )
+    {
+        if ( m_state == State::Inactive )
+            m_state == State::Hovering;
+    }
+    else
+    {
+        if ( m_state == State::Hovering )
+            m_state == State::Inactive;
+    }
+}
+
 void Component::updateBorder( void )
 {
     m_borderShape.setPosition( m_actualX + m_borderShape.getOutlineThickness(),
@@ -132,4 +142,14 @@ void Component::updateBorder( void )
 
     m_borderShape.setSize( sf::Vector2f( m_actualWidth - 2 * m_borderShape.getOutlineThickness(),
                                          m_actualHeight - 2 * m_borderShape.getOutlineThickness() ) );
+}
+
+bool Component::containsPoint( int x, int y )
+{
+    float minX = m_actualX;
+    float maxX = m_actualX + m_actualWidth;
+    float minY = m_actualY;
+    float maxY = m_actualY + m_actualHeight;
+
+    return x >= minX && x < maxX && y >= minY && y < maxY;
 }

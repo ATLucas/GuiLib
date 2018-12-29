@@ -1,6 +1,5 @@
 
 #include "CubeMaker.h"
-#include <iostream>
 
 using namespace std;
 
@@ -28,8 +27,6 @@ Gui::Config CubeMaker::getConfig( void )
 
 void CubeMaker::init( void )
 {
-    cout << "Beginning CubeMaker::init()" << endl;
-
     string fontLocation = "fonts/Montserrat/Montserrat-Medium.ttf";
 
     if ( !m_monserratFont.loadFromFile( fontLocation ) )
@@ -71,13 +68,9 @@ void CubeMaker::init( void )
     mainView->addChild( canvas );
     topMenu->addChild( openButton );
     topMenu->addChild( saveButton );
-
-    cout << "Done with CubeMaker::init()" << endl;
 }
 
 void CubeMaker::shutdown( void )
 {
-    cout << "Beginning CubeMaker::shutdown()" << endl;
 
-    cout << "Done with CubeMaker::shutdown()" << endl;
 }

@@ -13,8 +13,6 @@ void View::addChild( std::shared_ptr<Component> childView )
 
 void View::updateSizeAndPostion( void )
 {
-    cout << "Beginning updateSizeAndPostion [" << m_name << "]" << endl;
-
     Component::updateSizeAndPostion();
 
     updateChildWidths();
@@ -46,19 +44,12 @@ void View::updateSizeAndPostion( void )
 
         child->updateSizeAndPostion();
     }
-
-    cout << "Done with updateSizeAndPostion [" << m_name << "]" << endl;
 }
 
 void View::updateChildWidths( void )
 {
-    cout << "Beginning updateChildWidths [" << m_name << "]" << endl;
-
     for ( const auto &child : m_children )
     {
-        cout << "Updating " << child->m_name << " width with Size::Type "
-            << (int)child->m_requestedWidth.sizeType << endl;
-
         float childHorizontalMargin = child->m_leftMargin + child->m_rightMargin;
 
         if ( child->m_requestedWidth.sizeType == SizeType::Absolute )
@@ -85,9 +76,6 @@ void View::updateChildHeights( void )
 {
     for ( const auto &child : m_children )
     {
-        cout << "Updating " << child->m_name << " height with Size::Type "
-            << (int) child->m_requestedHeight.sizeType << endl;
-
         float childVerticalMargin = child->m_topMargin + child->m_botMargin;
 
         if ( child->m_requestedHeight.sizeType == SizeType::Absolute )
@@ -132,6 +120,24 @@ void View::draw( sf::RenderWindow &window )
         if ( child->m_validSizeAndPosition )
             child->draw( window );
     }
+}
+
+void View::onMousePressed( int x, int y )
+{
+    for ( const auto &child : m_children )
+        child->onMousePressed( x, y );
+}
+
+void View::onMouseReleased( int x, int y )
+{
+    for ( const auto &child : m_children )
+        child->onMouseReleased( x, y );
+}
+
+void View::onMouseMoved( int x, int y )
+{
+    for ( const auto &child : m_children )
+        child->onMouseMoved( x, y );
 }
 
 float View::getFitWidth( void )
@@ -185,8 +191,6 @@ float View::getFitHeight( void )
 
     fitHeight += m_topPadding + m_botPadding;
 
-    cout << "getFitHeight [" << m_name << "]: " << fitHeight << endl;
-
     return fitHeight;
 }
 
@@ -220,9 +224,6 @@ void HorizontalView::updateChildWidths( void )
 
     for ( const auto &child : m_children )
     {
-        cout << "Updating " << child->m_name << " width with Size::Type "
-            << (int) child->m_requestedWidth.sizeType << endl;
-
         float childHorizontalMargin = child->m_leftMargin + child->m_rightMargin;
 
         child->m_actualWidth = 0;
@@ -292,8 +293,6 @@ float VerticalView::getFitHeight( void )
         }
     }
 
-    cout << "getFitHeight [" << m_name << "]: " << fitHeight << endl;
-
     return fitHeight;
 }
 
@@ -304,9 +303,6 @@ void VerticalView::updateChildHeights( void )
 
     for ( const auto &child : m_children )
     {
-        cout << "Updating " << child->m_name << " height with Size::Type "
-            << (int) child->m_requestedHeight.sizeType << endl;
-
         float childVerticalMargin = child->m_topMargin + child->m_botMargin;
 
         child->m_actualHeight = 0;

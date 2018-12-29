@@ -12,6 +12,12 @@ public:
 
     virtual void draw( sf::RenderWindow &window ) = 0;
 
+    virtual void onMousePressed( int x, int y ) = 0;
+
+    virtual void onMouseReleased( int x, int y ) = 0;
+
+    virtual void onMouseMoved( int x, int y ) = 0;
+
     virtual void setActualWidth( float width ) = 0;
 
     virtual void setActualHeight( float width ) = 0;
@@ -42,6 +48,12 @@ protected:
 
 
     // Implementations of pure-virtual Component functions:
+
+    virtual void onMousePressed( int x, int y ) override;
+
+    virtual void onMouseReleased( int x, int y ) override;
+
+    virtual void onMouseMoved( int x, int y ) override;
 
     virtual float getFitWidth( void ) override;
 
