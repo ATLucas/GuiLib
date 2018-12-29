@@ -23,15 +23,17 @@ void View::updateSizeAndPostion( void )
     for ( const auto &child : m_children )
     {
         // Validate the child's size and position.
+        ModeState &childModeState = child->getModeState();
+
         float minX = m_contentX;
         float maxX = m_contentX + m_contentWidth;
         float minY = m_contentY;
         float maxY = m_contentY + m_contentHeight;
 
-        float childMinX = child->m_actualX - child->m_leftMargin;
-        float childMaxX = child->m_actualX + child->m_actualWidth + child->m_rightMargin;
-        float childMinY = child->m_actualY - child->m_topMargin;
-        float childMaxY = child->m_actualY + child->m_actualHeight + child->m_botMargin;
+        float childMinX = child->m_actualX - childModeState.leftMargin;
+        float childMaxX = child->m_actualX + child->m_actualWidth + childModeState.rightMargin;
+        float childMinY = child->m_actualY - childModeState.topMargin;
+        float childMaxY = child->m_actualY + child->m_actualHeight + childModeState.botMargin;
 
         if ( childMinX < minX || childMinX > maxX ||
              childMaxX < minX || childMaxX > maxX ||
@@ -50,22 +52,24 @@ void View::updateChildWidths( void )
 {
     for ( const auto &child : m_children )
     {
-        float childHorizontalMargin = child->m_leftMargin + child->m_rightMargin;
+        ModeState &childModeState = child->getModeState();
 
-        if ( child->m_requestedWidth.sizeType == SizeType::Absolute )
+        float childHorizontalMargin = childModeState.leftMargin + childModeState.rightMargin;
+
+        if ( childModeState.requestedWidth.sizeType == SizeType::Absolute )
         {
-            child->m_actualWidth = child->m_requestedWidth.value;
+            child->m_actualWidth = childModeState.requestedWidth.value;
         }
-        else if ( child->m_requestedWidth.sizeType == SizeType::Percent )
+        else if ( childModeState.requestedWidth.sizeType == SizeType::Percent )
         {
-            child->m_actualWidth = child->m_requestedWidth.value * 0.01f * m_contentWidth;
+            child->m_actualWidth = childModeState.requestedWidth.value * 0.01f * m_contentWidth;
             child->m_actualWidth -= childHorizontalMargin;
         }
-        else if ( child->m_requestedWidth.sizeType == SizeType::Fill )
+        else if ( childModeState.requestedWidth.sizeType == SizeType::Fill )
         {
             child->m_actualWidth = m_contentWidth - childHorizontalMargin;
         }
-        else if ( child->m_requestedWidth.sizeType == SizeType::Fit )
+        else if ( childModeState.requestedWidth.sizeType == SizeType::Fit )
         {
             child->m_actualWidth = child->getFitWidth();
         }
@@ -76,22 +80,24 @@ void View::updateChildHeights( void )
 {
     for ( const auto &child : m_children )
     {
-        float childVerticalMargin = child->m_topMargin + child->m_botMargin;
+        ModeState &childModeState = child->getModeState();
 
-        if ( child->m_requestedHeight.sizeType == SizeType::Absolute )
+        float childVerticalMargin = childModeState.topMargin + childModeState.botMargin;
+
+        if ( childModeState.requestedHeight.sizeType == SizeType::Absolute )
         {
-            child->m_actualHeight = child->m_requestedHeight.value;
+            child->m_actualHeight = childModeState.requestedHeight.value;
         }
-        else if ( child->m_requestedHeight.sizeType == SizeType::Percent )
+        else if ( childModeState.requestedHeight.sizeType == SizeType::Percent )
         {
-            child->m_actualHeight = child->m_requestedHeight.value * 0.01f * m_contentHeight;
+            child->m_actualHeight = childModeState.requestedHeight.value * 0.01f * m_contentHeight;
             child->m_actualHeight -= childVerticalMargin;
         }
-        else if ( child->m_requestedHeight.sizeType == SizeType::Fill )
+        else if ( childModeState.requestedHeight.sizeType == SizeType::Fill )
         {
             child->m_actualHeight = m_contentHeight - childVerticalMargin;
         }
-        else if ( child->m_requestedHeight.sizeType == SizeType::Fit )
+        else if ( childModeState.requestedHeight.sizeType == SizeType::Fit )
         {
             child->m_actualHeight = child->getFitHeight();
         }
@@ -101,13 +107,13 @@ void View::updateChildHeights( void )
 void View::updateChildXValues( void )
 {
     for ( const auto &child : m_children )
-        child->m_actualX = m_contentX + child->m_leftMargin;
+        child->m_actualX = m_contentX + child->getModeState().leftMargin;
 }
 
 void View::updateChildYValues( void )
 {
     for ( const auto &child : m_children )
-        child->m_actualY = m_contentY + child->m_topMargin;
+        child->m_actualY = m_contentY + child->getModeState().topMargin;
 }
 
 void View::draw( sf::RenderWindow &window )
@@ -146,14 +152,16 @@ float View::getFitWidth( void )
 
     for ( const auto &child : m_children )
     {
-        float childMargin = child->m_leftMargin + child->m_rightMargin;
+        ModeState &childModeState = child->getModeState();
+
+        float childMargin = childModeState.leftMargin + childModeState.rightMargin;
         float childFitWidth = 0;
 
-        if ( child->m_requestedWidth.sizeType == SizeType::Absolute )
+        if ( childModeState.requestedWidth.sizeType == SizeType::Absolute )
         {
-            childFitWidth = childMargin + child->m_requestedWidth.value;
+            childFitWidth = childMargin + childModeState.requestedWidth.value;
         }
-        else if ( child->m_requestedWidth.sizeType == SizeType::Fit )
+        else if ( childModeState.requestedWidth.sizeType == SizeType::Fit )
         {
             childFitWidth = childMargin + child->getFitWidth();
         }
@@ -161,9 +169,7 @@ float View::getFitWidth( void )
         fitWidth = childFitWidth > fitWidth ? childFitWidth : fitWidth;
     }
 
-    fitWidth += m_leftPadding + m_rightPadding;
-
-    cout << "getFitWidth [" << m_name << "]: " << fitWidth << endl;
+    fitWidth += getModeState().leftPadding + getModeState().rightPadding;
     
     return fitWidth;
 }
@@ -174,14 +180,16 @@ float View::getFitHeight( void )
 
     for ( const auto &child : m_children )
     {
-        float childMargin = child->m_topMargin + child->m_botMargin;
+        ModeState &childModeState = child->getModeState();
+
+        float childMargin = childModeState.topMargin + childModeState.botMargin;
         float childFitHeight = 0;
 
-        if ( child->m_requestedHeight.sizeType == SizeType::Absolute )
+        if ( childModeState.requestedHeight.sizeType == SizeType::Absolute )
         {
-            childFitHeight = childMargin + child->m_requestedHeight.value;
+            childFitHeight = childMargin + childModeState.requestedHeight.value;
         }
-        else if ( child->m_requestedHeight.sizeType == SizeType::Fit )
+        else if ( childModeState.requestedHeight.sizeType == SizeType::Fit )
         {
             childFitHeight = childMargin + child->getFitHeight();
         }
@@ -189,30 +197,30 @@ float View::getFitHeight( void )
         fitHeight = childFitHeight > fitHeight ? childFitHeight : fitHeight;
     }
 
-    fitHeight += m_topPadding + m_botPadding;
+    fitHeight += getModeState().topPadding + getModeState().botPadding;
 
     return fitHeight;
 }
 
 float HorizontalView::getFitWidth( void )
 {
-    float fitWidth = m_leftPadding + m_rightPadding;
+    float fitWidth = getModeState().leftPadding + getModeState().rightPadding;
 
     for ( const auto &child : m_children )
     {
-        float childMargin = child->m_leftMargin + child->m_rightMargin;
+        ModeState &childModeState = child->getModeState();
 
-        if ( child->m_requestedWidth.sizeType == SizeType::Absolute )
+        float childMargin = childModeState.leftMargin + childModeState.rightMargin;
+
+        if ( childModeState.requestedWidth.sizeType == SizeType::Absolute )
         {
-            fitWidth += childMargin + child->m_requestedWidth.value;
+            fitWidth += childMargin + childModeState.requestedWidth.value;
         }
-        else if ( child->m_requestedWidth.sizeType == SizeType::Fit )
+        else if ( childModeState.requestedWidth.sizeType == SizeType::Fit )
         {
             fitWidth += childMargin + child->getFitWidth();
         }
     }
-
-    cout << "getFitWidth [" << m_name << "]: " << fitWidth << endl;
 
     return fitWidth;
 }
@@ -224,24 +232,26 @@ void HorizontalView::updateChildWidths( void )
 
     for ( const auto &child : m_children )
     {
-        float childHorizontalMargin = child->m_leftMargin + child->m_rightMargin;
+        ModeState &childModeState = child->getModeState();
+
+        float childHorizontalMargin = childModeState.leftMargin + childModeState.rightMargin;
 
         child->m_actualWidth = 0;
 
-        if ( child->m_requestedWidth.sizeType == SizeType::Absolute )
+        if ( childModeState.requestedWidth.sizeType == SizeType::Absolute )
         {
-            child->m_actualWidth = child->m_requestedWidth.value;
+            child->m_actualWidth = childModeState.requestedWidth.value;
         }
-        else if ( child->m_requestedWidth.sizeType == SizeType::Percent )
+        else if ( childModeState.requestedWidth.sizeType == SizeType::Percent )
         {
-            child->m_actualWidth = child->m_requestedWidth.value * 0.01f * m_contentWidth;
+            child->m_actualWidth = childModeState.requestedWidth.value * 0.01f * m_contentWidth;
             child->m_actualWidth -= childHorizontalMargin;
         }
-        else if ( child->m_requestedWidth.sizeType == SizeType::Fill )
+        else if ( childModeState.requestedWidth.sizeType == SizeType::Fill )
         {
             numFillingChildren++;
         }
-        else if ( child->m_requestedWidth.sizeType == SizeType::Fit )
+        else if ( childModeState.requestedWidth.sizeType == SizeType::Fit )
         {
             child->m_actualWidth = child->getFitWidth();
         }
@@ -256,7 +266,7 @@ void HorizontalView::updateChildWidths( void )
 
         for ( const auto &child : m_children )
         {
-            if ( child->m_requestedWidth.sizeType == SizeType::Fill )
+            if ( child->getModeState().requestedWidth.sizeType == SizeType::Fill )
                 child->m_actualWidth = fillValue;
         }
     }
@@ -268,26 +278,31 @@ void HorizontalView::updateChildXValues( void )
 
     for ( const auto &child : m_children )
     {
-        nextX += child->m_leftMargin;
+        ModeState &childModeState = child->getModeState();
+
+        nextX += childModeState.leftMargin;
         child->m_actualX = nextX;
         nextX += child->m_actualWidth;
-        nextX += child->m_rightMargin;
+        nextX += childModeState.rightMargin;
     }
 }
 
 float VerticalView::getFitHeight( void )
 {
-    float fitHeight = m_topPadding + m_botPadding;
+    ModeState &modeState = getModeState();
+    float fitHeight = modeState.topPadding + modeState.botPadding;
 
     for ( const auto &child : m_children )
     {
-        float childMargin = child->m_topMargin + child->m_botMargin;
+        ModeState &childModeState = child->getModeState();
 
-        if ( child->m_requestedHeight.sizeType == SizeType::Absolute )
+        float childMargin = childModeState.topMargin + childModeState.botMargin;
+
+        if ( childModeState.requestedHeight.sizeType == SizeType::Absolute )
         {
-            fitHeight += childMargin + child->m_requestedHeight.value;
+            fitHeight += childMargin + childModeState.requestedHeight.value;
         }
-        else if ( child->m_requestedHeight.sizeType == SizeType::Fit )
+        else if ( childModeState.requestedHeight.sizeType == SizeType::Fit )
         {
             fitHeight += childMargin + child->getFitHeight();
         }
@@ -303,24 +318,26 @@ void VerticalView::updateChildHeights( void )
 
     for ( const auto &child : m_children )
     {
-        float childVerticalMargin = child->m_topMargin + child->m_botMargin;
+        ModeState &childModeState = child->getModeState();
+
+        float childVerticalMargin = childModeState.topMargin + childModeState.botMargin;
 
         child->m_actualHeight = 0;
 
-        if ( child->m_requestedHeight.sizeType == SizeType::Absolute )
+        if ( childModeState.requestedHeight.sizeType == SizeType::Absolute )
         {
-            child->m_actualHeight = child->m_requestedHeight.value;
+            child->m_actualHeight = childModeState.requestedHeight.value;
         }
-        else if ( child->m_requestedHeight.sizeType == SizeType::Percent )
+        else if ( childModeState.requestedHeight.sizeType == SizeType::Percent )
         {
-            child->m_actualHeight = child->m_requestedHeight.value * 0.01f * m_contentHeight;
+            child->m_actualHeight = childModeState.requestedHeight.value * 0.01f * m_contentHeight;
             child->m_actualHeight -= childVerticalMargin;
         }
-        else if ( child->m_requestedHeight.sizeType == SizeType::Fill )
+        else if ( childModeState.requestedHeight.sizeType == SizeType::Fill )
         {
             numFillingChildren++;
         }
-        else if ( child->m_requestedHeight.sizeType == SizeType::Fit )
+        else if ( childModeState.requestedHeight.sizeType == SizeType::Fit )
         {
             child->m_actualHeight = child->getFitHeight();
         }
@@ -335,7 +352,7 @@ void VerticalView::updateChildHeights( void )
 
         for ( const auto &child : m_children )
         {
-            if ( child->m_requestedHeight.sizeType == SizeType::Fill )
+            if ( child->getModeState().requestedHeight.sizeType == SizeType::Fill )
                 child->m_actualHeight = fillValue;
         }
     }
@@ -347,9 +364,11 @@ void VerticalView::updateChildYValues( void )
 
     for ( const auto &child : m_children )
     {
-        nextY += child->m_topMargin;
+        ModeState &childModeState = child->getModeState();
+
+        nextY += childModeState.topMargin;
         child->m_actualY = nextY;
         nextY += child->m_actualHeight;
-        nextY += child->m_botMargin;
+        nextY += childModeState.botMargin;
     }
 }

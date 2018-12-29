@@ -35,3 +35,29 @@ private:
 
     sf::Text m_text;
 };
+
+class Button: public TextDisplay
+{
+public:
+
+    class Listener
+    {
+    public:
+
+        virtual void onClicked( void ) = 0;
+    };
+
+    Button( const std::string &name = "<NameNotSet>" ) : TextDisplay( name ) {};
+
+    void setListener( Listener *listener ) { m_listener = listener; }
+
+protected:
+
+    virtual void onMousePressed( int x, int y ) override;
+
+    virtual void onMouseReleased( int x, int y ) override;
+
+private:
+
+    Listener *m_listener = nullptr;
+};

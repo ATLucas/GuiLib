@@ -30,8 +30,8 @@ void TextDisplay::updateSizeAndPostion( void )
 {
     Component::updateSizeAndPostion();
 
-    m_text.setPosition( m_actualX + m_leftPadding - m_text.getLocalBounds().left,
-                        m_actualY + m_topPadding - m_text.getLocalBounds().top );
+    m_text.setPosition( m_actualX + getModeState().leftPadding - m_text.getLocalBounds().left,
+                        m_actualY + getModeState().topPadding - m_text.getLocalBounds().top );
 }
 
 void TextDisplay::draw( RenderWindow &window )
@@ -44,10 +44,39 @@ void TextDisplay::draw( RenderWindow &window )
 
 float TextDisplay::getFitWidth( void )
 {
-    return m_text.getLocalBounds().width + m_leftPadding + m_rightPadding - m_text.getLocalBounds().left;
+    return m_text.getLocalBounds().width +
+        getModeState().leftPadding +
+        getModeState().rightPadding -
+        m_text.getLocalBounds().left;
 }
 
 float TextDisplay::getFitHeight( void )
 {
-    return m_text.getCharacterSize() + m_topPadding + m_botPadding - m_text.getLocalBounds().top;
+    return m_text.getCharacterSize() +
+        getModeState().topPadding +
+        getModeState().botPadding -
+        m_text.getLocalBounds().top;
+}
+
+void Button::onMousePressed( int x, int y )
+{
+    if ( containsPoint( x, y ) )
+    {
+        if ( getMode() == Mode::Inactive || getMode() == Mode::Hovering )
+            setMode( Mode::Active );
+    }
+}
+
+void Button::onMouseReleased( int x, int y )
+{
+    if ( getMode() == Mode::Active )
+    {
+        if ( containsPoint( x, y ) )
+            setMode( Mode::Hovering );
+        else
+            setMode( Mode::Inactive );
+
+        if ( m_listener )
+            m_listener->onClicked();
+    }
 }

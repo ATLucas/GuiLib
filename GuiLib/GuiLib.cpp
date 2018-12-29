@@ -59,6 +59,8 @@ void Gui::run( void )
                 if ( event.mouseButton.button == 0 )
                 {
                     m_mainViewInterface->onMousePressed( event.mouseButton.x, event.mouseButton.y );
+
+                    // Update the view hierarchy.
                     m_mainViewInterface->updateSizeAndPostion();
                 }
             }
@@ -67,12 +69,16 @@ void Gui::run( void )
                 if ( event.mouseButton.button == 0 )
                 {
                     m_mainViewInterface->onMouseReleased( event.mouseButton.x, event.mouseButton.y );
+
+                    // Update the view hierarchy.
                     m_mainViewInterface->updateSizeAndPostion();
                 }
             }
             else if ( event.type == sf::Event::MouseMoved )
             {
                 m_mainViewInterface->onMouseMoved( event.mouseMove.x, event.mouseMove.y );
+
+                // Update the view hierarchy.
                 m_mainViewInterface->updateSizeAndPostion();
             }
         }

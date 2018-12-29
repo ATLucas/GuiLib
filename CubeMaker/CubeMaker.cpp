@@ -40,7 +40,7 @@ void CubeMaker::init( void )
     topMenu->setColor( sf::Color( 50, 50, 60 ) );
     topMenu->setPadding( 10 );
     
-    shared_ptr<TextDisplay> openButton = make_shared<TextDisplay>( "Open Button" );
+    shared_ptr<Button> openButton = make_shared<Button>( "Open Button" );
     openButton->setWidth( Component::SizeType::Fit );
     openButton->setHeight( Component::SizeType::Fit );
     openButton->setText( "Open" );
@@ -49,8 +49,12 @@ void CubeMaker::init( void )
     openButton->setTextColor( sf::Color::White );
     openButton->setPadding( 10 );
     openButton->setMargin( 10 );
+    openButton->setColor( sf::Color::Green, Component::Mode::Active );
+    openButton->setBorderThickness( 1, Component::Mode::Hovering );
+    openButton->setBorderColor( sf::Color::Green, Component::Mode::Hovering );
+    openButton->setListener( &m_openButtonListener );
 
-    shared_ptr<TextDisplay> saveButton = make_shared<TextDisplay>( "Save Button" );
+    shared_ptr<Button> saveButton = make_shared<Button>( "Save Button" );
     saveButton->setWidth( Component::SizeType::Fit );
     saveButton->setHeight( Component::SizeType::Fit );
     saveButton->setText( "Save" );
@@ -59,6 +63,10 @@ void CubeMaker::init( void )
     saveButton->setTextColor( sf::Color::White );
     saveButton->setPadding( 10 );
     saveButton->setMargin( 10 );
+    saveButton->setColor( sf::Color::Green, Component::Mode::Active );
+    saveButton->setBorderThickness( 1, Component::Mode::Hovering );
+    saveButton->setBorderColor( sf::Color::Green, Component::Mode::Hovering );
+    saveButton->setListener( &m_saveButtonListener );
 
     shared_ptr<LayeredView> canvas = make_shared<LayeredView>( "Canvas" );
     canvas->setWidth( Component::SizeType::Fill );
@@ -73,4 +81,14 @@ void CubeMaker::init( void )
 void CubeMaker::shutdown( void )
 {
 
+}
+
+void CubeMaker::OpenButtonListener::onClicked( void )
+{
+    cout << "Clicked the open button" << endl;
+}
+
+void CubeMaker::SaveButtonListener::onClicked( void )
+{
+    cout << "Clicked the save button" << endl;
 }
