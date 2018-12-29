@@ -38,19 +38,16 @@ void TextDisplay::draw( RenderWindow &window )
 {
     Component::draw( window );
 
-    window.draw( m_text );
+    if ( getFitWidth() <= m_actualWidth && getFitHeight() <= m_actualHeight )
+        window.draw( m_text );
 }
 
 float TextDisplay::getFitWidth( void )
 {
-    float returnValue = m_text.getLocalBounds().width + m_leftPadding + m_rightPadding - m_text.getLocalBounds().left;
-    cout << "getFitWidth [" << m_name << "]: " << returnValue << endl;
-    return returnValue;
+    return m_text.getLocalBounds().width + m_leftPadding + m_rightPadding - m_text.getLocalBounds().left;
 }
 
 float TextDisplay::getFitHeight( void )
 {
-    float returnValue = m_text.getCharacterSize() + m_topPadding + m_botPadding - m_text.getLocalBounds().top;
-    cout << "getFitHeight [" << m_name << "]: " << returnValue << endl;
-    return returnValue;
+    return m_text.getCharacterSize() + m_topPadding + m_botPadding - m_text.getLocalBounds().top;
 }
