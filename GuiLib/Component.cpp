@@ -2,9 +2,9 @@
 #include "Component.h"
 
 using namespace sf;
+using namespace std;
 
-
-Component::Component( void )
+Component::Component( const string &name ): m_name( name )
 {
     // Component fill color defaults to black
     setColor( sf::Color::Black );
@@ -98,6 +98,20 @@ void Component::updateSizeAndPostion( void )
     m_contentY = m_actualY + m_topPadding;
     m_contentWidth = m_actualWidth - m_leftPadding - m_rightPadding;
     m_contentHeight = m_actualHeight - m_topPadding - m_botPadding;
+
+    cout << m_name << " (actual): "
+        << m_actualX << ", "
+        << m_actualY << ", "
+        << m_actualWidth << ", "
+        << m_actualHeight
+        << endl;
+
+    cout << m_name << " (content): "
+        << m_contentX << ", "
+        << m_contentY << ", "
+        << m_contentWidth << ", "
+        << m_contentHeight
+        << endl;
 
     m_shape.setSize( Vector2f( m_actualWidth, m_actualHeight ) );
     m_shape.setPosition( Vector2f( m_actualX, m_actualY ) );

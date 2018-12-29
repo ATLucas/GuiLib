@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <stdlib.h>
+#include <iostream>
 
 
 class Component
@@ -19,7 +20,8 @@ public:
     {
         Absolute,
         Percent,
-        Fill
+        Fill,
+        Fit
     };
 
     void setWidth( SizeType sizeType, float width = 0 );
@@ -49,11 +51,15 @@ public:
 
 protected:
 
-    Component( void );
+    Component( const std::string &name );
 
     virtual void updateSizeAndPostion( void );
 
     virtual void draw( sf::RenderWindow &window );
+
+    virtual float getFitWidth( void ) = 0;
+
+    virtual float getFitHeight( void ) = 0;
 
     struct SizeRequest
     {
@@ -85,6 +91,8 @@ protected:
     float m_botMargin = 0;
 
     bool m_validSizeAndPosition = true;
+
+    std::string m_name;
 
 private:
 

@@ -27,7 +27,7 @@ public:
 
 protected:
 
-    View( void ) : Component() {};
+    View( const std::string &name ) : Component( name ) {};
 
 
     // Exposed via MainViewInterface:
@@ -39,6 +39,13 @@ protected:
     virtual void setActualWidth( float width ) override { m_actualWidth = width; };
 
     virtual void setActualHeight( float height ) override { m_actualHeight = height; };
+
+
+    // Implementations of pure-virtual Component functions:
+
+    virtual float getFitWidth( void ) override;
+
+    virtual float getFitHeight( void ) override;
 
 
     // Only used internally by views:
@@ -60,7 +67,7 @@ class LayeredView: public View
 {
 public:
 
-    LayeredView( void ) : View() {};
+    LayeredView( const std::string &name = "<NameNotSet>" ) : View( name ) {};
 
 }; // end class LayeredView
 
@@ -69,9 +76,11 @@ class HorizontalView: public View
 {
 public:
 
-    HorizontalView( void ) : View() {};
+    HorizontalView( const std::string &name = "<NameNotSet>" ) : View( name ) {};
 
 protected:
+
+    virtual float getFitWidth( void ) override;
 
     virtual void updateChildWidths( void ) override;
 
@@ -84,9 +93,11 @@ class VerticalView: public View
 {
 public:
 
-    VerticalView( void ) : View() {};
+    VerticalView( const std::string &name = "<NameNotSet>" ) : View( name ) {};
 
 protected:
+
+    virtual float getFitHeight( void ) override;
 
     virtual void updateChildHeights( void ) override;
 

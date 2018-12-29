@@ -15,11 +15,11 @@ void Gui::run( void )
     m_window.setVerticalSyncEnabled( true );
 
     if ( m_config.mainViewLayout == ViewLayout::Layered )
-        m_mainView = make_shared<LayeredView>();
+        m_mainView = make_shared<LayeredView>( "Main View" );
     else if ( m_config.mainViewLayout == ViewLayout::Horizontal )
-        m_mainView = make_shared<HorizontalView>();
+        m_mainView = make_shared<HorizontalView>( "Main View" );
     else if ( m_config.mainViewLayout == ViewLayout::Vertical )
-        m_mainView = make_shared<VerticalView>();
+        m_mainView = make_shared<VerticalView>( "Main View" );
 
     m_mainViewInterface = dynamic_pointer_cast<MainViewInterface>( m_mainView );
 
