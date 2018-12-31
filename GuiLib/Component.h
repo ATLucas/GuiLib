@@ -66,15 +66,19 @@ protected:
 
     virtual void initialize( sf::RenderWindow &window );
 
-    virtual void updateSizeAndPostion( sf::RenderWindow &window );
+    virtual void update( sf::RenderWindow &window );
 
     virtual void draw( sf::RenderWindow &window );
 
-    virtual void onMousePressed( int x, int y );
+    virtual void onMouseButtonPressed( int x,
+                                       int y,
+                                       sf::Mouse::Button button,
+                                       bool inFocus );
 
-    virtual void onMouseReleased( int x, int y );
-
-    virtual void onMouseMoved( int x, int y );
+    virtual void onMouseButtonReleased( int x,
+                                        int y,
+                                        sf::Mouse::Button button,
+                                        bool inFocus );
 
     virtual void onTextEntered( char c );
 

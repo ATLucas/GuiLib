@@ -30,8 +30,20 @@ void Component::initialize( sf::RenderWindow &window )
 
 }
 
-void Component::updateSizeAndPostion( sf::RenderWindow &window )
+void Component::update( sf::RenderWindow &window )
 {
+    if ( containsPoint( sf::Mouse::getPosition( window ).x,
+                        sf::Mouse::getPosition( window ).y ) )
+    {
+        if ( getMode() == Mode::Inactive )
+            setMode( Mode::Hovering );
+    }
+    else
+    {
+        if ( getMode() == Mode::Hovering )
+            setMode( Mode::Inactive );
+    }
+
     ModeState &modeState = getModeState();
 
     float leftPadding = modeState.leftPadding;
@@ -196,28 +208,20 @@ void Component::setMargin( float margin, Side side, Mode mode )
     }
 }
 
-void Component::onMousePressed( int x, int y )
+void Component::onMouseButtonPressed( int x,
+                                      int y,
+                                      sf::Mouse::Button button,
+                                      bool inFocus )
 {
 
 }
 
-void Component::onMouseReleased( int x, int y )
+void Component::onMouseButtonReleased( int x,
+                                       int y,
+                                       sf::Mouse::Button button,
+                                       bool inFocus )
 {
 
-}
-
-void Component::onMouseMoved( int x, int y )
-{
-    if ( containsPoint( x, y ) )
-    {
-        if ( getMode() == Mode::Inactive )
-            setMode( Mode::Hovering );
-    }
-    else
-    {
-        if ( getMode() == Mode::Hovering )
-            setMode( Mode::Inactive );
-    }
 }
 
 void Component::onTextEntered( char c )

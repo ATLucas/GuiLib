@@ -25,9 +25,9 @@ void TextDisplay::setText( const string &text )
     m_text.setString( text );
 }
 
-void TextDisplay::updateSizeAndPostion( sf::RenderWindow &window )
+void TextDisplay::update( sf::RenderWindow &window )
 {
-    Component::updateSizeAndPostion( window );
+    Component::update( window );
 
     m_text.setPosition( m_actualX + getModeState().leftPadding,
                         m_actualY + getModeState().topPadding );
@@ -55,20 +55,26 @@ float TextDisplay::getFitHeight( void )
         getModeState().botPadding;
 }
 
-void Button::onMousePressed( int x, int y )
+void Button::onMouseButtonPressed( int x,
+                                   int y,
+                                   sf::Mouse::Button button,
+                                   bool inFocus )
 {
-    if ( containsPoint( x, y ) )
+    if ( inFocus )
     {
         if ( getMode() == Mode::Inactive || getMode() == Mode::Hovering )
             setMode( Mode::Active );
     }
 }
 
-void Button::onMouseReleased( int x, int y )
+void Button::onMouseButtonReleased( int x,
+                                    int y,
+                                    sf::Mouse::Button button,
+                                    bool inFocus )
 {
     if ( getMode() == Mode::Active )
     {
-        if ( containsPoint( x, y ) )
+        if ( inFocus )
             setMode( Mode::Hovering );
         else
             setMode( Mode::Inactive );
@@ -78,9 +84,12 @@ void Button::onMouseReleased( int x, int y )
     }
 }
 
-void TextInput::onMousePressed( int x, int y )
+void TextInput::onMouseButtonPressed( int x,
+                                      int y,
+                                      sf::Mouse::Button button,
+                                      bool inFocus )
 {
-    if ( containsPoint( x, y ) )
+    if ( inFocus )
     {
         if ( getMode() != Mode::Active )
             setMode( Mode::Active );

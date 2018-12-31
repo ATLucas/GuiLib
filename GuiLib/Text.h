@@ -20,7 +20,7 @@ public:
 
     // Overrides of existing Component functions:
 
-    virtual void updateSizeAndPostion( sf::RenderWindow &window ) override;
+    virtual void update( sf::RenderWindow &window ) override;
 
     virtual void draw( sf::RenderWindow &window ) override;
 
@@ -53,9 +53,15 @@ public:
 
 protected:
 
-    virtual void onMousePressed( int x, int y ) override;
+    virtual void onMouseButtonPressed( int x,
+                                       int y,
+                                       sf::Mouse::Button button,
+                                       bool inFocus ) override;
 
-    virtual void onMouseReleased( int x, int y ) override;
+    virtual void onMouseButtonReleased( int x,
+                                        int y,
+                                        sf::Mouse::Button button,
+                                        bool inFocus ) override;
 
 private:
 
@@ -79,7 +85,10 @@ public:
 
 protected:
 
-    virtual void onMousePressed( int x, int y ) override;
+    virtual void onMouseButtonPressed( int x,
+                                       int y,
+                                       sf::Mouse::Button button,
+                                       bool inFocus ) override;
 
     virtual void onTextEntered( char c ) override;
 

@@ -10,15 +10,19 @@ public:
 
     virtual void initialize( sf::RenderWindow &window ) = 0;
 
-    virtual void updateSizeAndPostion( sf::RenderWindow &window ) = 0;
+    virtual void update( sf::RenderWindow &window ) = 0;
 
     virtual void draw( sf::RenderWindow &window ) = 0;
 
-    virtual void onMousePressed( int x, int y ) = 0;
+    virtual void onMouseButtonPressed( int x,
+                                       int y,
+                                       sf::Mouse::Button button,
+                                       bool inFocus ) = 0;
 
-    virtual void onMouseReleased( int x, int y ) = 0;
-
-    virtual void onMouseMoved( int x, int y ) = 0;
+    virtual void onMouseButtonReleased( int x,
+                                        int y,
+                                        sf::Mouse::Button button,
+                                        bool inFocus ) = 0;
 
     virtual void onTextEntered( char c ) = 0;
 
@@ -44,7 +48,7 @@ protected:
 
     virtual void initialize( sf::RenderWindow &window ) override;
 
-    virtual void updateSizeAndPostion( sf::RenderWindow &window ) override;
+    virtual void update( sf::RenderWindow &window ) override;
 
     virtual void draw( sf::RenderWindow &window ) override;
 
@@ -52,11 +56,15 @@ protected:
 
     virtual void setActualHeight( float height ) override { m_actualHeight = height; };
 
-    virtual void onMousePressed( int x, int y ) override;
+    virtual void onMouseButtonPressed( int x,
+                                       int y,
+                                       sf::Mouse::Button button,
+                                       bool inFocus ) override;
 
-    virtual void onMouseReleased( int x, int y ) override;
-
-    virtual void onMouseMoved( int x, int y ) override;
+    virtual void onMouseButtonReleased( int x,
+                                        int y,
+                                        sf::Mouse::Button button,
+                                        bool inFocus ) override;
 
     virtual void onTextEntered( char c ) override;
 
@@ -88,11 +96,15 @@ public:
 
 protected:
 
-    virtual void onMousePressed( int x, int y ) override;
+    virtual void onMouseButtonPressed( int x,
+                                       int y,
+                                       sf::Mouse::Button button,
+                                       bool inFocus ) override;
 
-    virtual void onMouseReleased( int x, int y ) override;
-
-    virtual void onMouseMoved( int x, int y ) override;
+    virtual void onMouseButtonReleased( int x,
+                                        int y,
+                                        sf::Mouse::Button button,
+                                        bool inFocus ) override;
 
 }; // end class LayeredView
 

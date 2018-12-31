@@ -75,9 +75,9 @@ void Canvas3D::initialize( sf::RenderWindow &window )
     window.pushGLStates();
 }
 
-void Canvas3D::updateSizeAndPostion( sf::RenderWindow &window )
+void Canvas3D::update( sf::RenderWindow &window )
 {
-    Component::updateSizeAndPostion( window );
+    Component::update( window );
 
     window.popGLStates();
 

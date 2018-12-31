@@ -28,14 +28,12 @@ void Gui::run( void )
     m_mainViewInterface = dynamic_pointer_cast<MainViewInterface>( m_mainView );
 
     // Set the main view to fill the window.
-    m_mainViewInterface->setActualWidth( (float) m_window.getSize().x );
-    m_mainViewInterface->setActualHeight( (float) m_window.getSize().y );
+    m_mainViewInterface->setActualWidth( static_cast<float>( m_window.getSize().x ) );
+    m_mainViewInterface->setActualHeight( static_cast<float>( m_window.getSize().y ) );
 
     initialize();
 
     m_mainViewInterface->initialize( m_window );
-
-    m_mainViewInterface->updateSizeAndPostion( m_window );
 
     while ( m_window.isOpen() )
     {
@@ -52,30 +50,29 @@ void Gui::run( void )
             if ( event.type == sf::Event::Resized )
             {
                 // Adjust the SFML view.
-                m_window.setView( sf::View(
-                    sf::FloatRect( 0.0f, 0.0f, (float) event.size.width, (float) event.size.height ) ) );
+                m_window.setView( sf::View( sf::FloatRect(
+                    0.0f,
+                    0.0f,
+                    static_cast<float>( event.size.width ),
+                    static_cast<float>( event.size.height ) ) ) );
 
                 // Set the size of the main view.
-                m_mainViewInterface->setActualWidth( (float) event.size.width );
-                m_mainViewInterface->setActualHeight( (float) event.size.height );
+                m_mainViewInterface->setActualWidth( static_cast<float>( event.size.width ) );
+                m_mainViewInterface->setActualHeight( static_cast<float>( event.size.height ) );
             }
             else if ( event.type == sf::Event::MouseButtonPressed )
             {
-                if ( event.mouseButton.button == 0 )
-                {
-                    m_mainViewInterface->onMousePressed( event.mouseButton.x, event.mouseButton.y );
-                }
+                m_mainViewInterface->onMouseButtonPressed( event.mouseButton.x,
+                                                           event.mouseButton.y,
+                                                           event.mouseButton.button,
+                                                           true );
             }
             else if ( event.type == sf::Event::MouseButtonReleased )
             {
-                if ( event.mouseButton.button == 0 )
-                {
-                    m_mainViewInterface->onMouseReleased( event.mouseButton.x, event.mouseButton.y );
-                }
-            }
-            else if ( event.type == sf::Event::MouseMoved )
-            {
-                m_mainViewInterface->onMouseMoved( event.mouseMove.x, event.mouseMove.y );
+                m_mainViewInterface->onMouseButtonReleased( event.mouseButton.x,
+                                                            event.mouseButton.y,
+                                                            event.mouseButton.button,
+                                                            true );
             }
             else if ( event.type == sf::Event::TextEntered )
             {
@@ -90,10 +87,10 @@ void Gui::run( void )
                     break;
                 }
             }
-
-            // Update the view hierarchy.
-            m_mainViewInterface->updateSizeAndPostion( m_window );
         }
+
+        // Update the view hierarchy.
+        m_mainViewInterface->update( m_window );
 
         m_window.clear();
 

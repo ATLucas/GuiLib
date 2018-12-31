@@ -18,9 +18,9 @@ void View::initialize( sf::RenderWindow &window )
         child->initialize( window );
 }
 
-void View::updateSizeAndPostion( sf::RenderWindow &window )
+void View::update( sf::RenderWindow &window )
 {
-    Component::updateSizeAndPostion( window );
+    Component::update( window );
 
     updateChildWidths();
     updateChildHeights();
@@ -51,7 +51,7 @@ void View::updateSizeAndPostion( sf::RenderWindow &window )
             cerr << "Warning: " << child->m_name << " has invalid size or position." << endl;
         }
 
-        child->updateSizeAndPostion( window );
+        child->update( window );
     }
 }
 
@@ -135,22 +135,22 @@ void View::draw( sf::RenderWindow &window )
     }
 }
 
-void View::onMousePressed( int x, int y )
+void View::onMouseButtonPressed( int x,
+                                 int y,
+                                 sf::Mouse::Button button,
+                                 bool inFocus )
 {
     for ( const auto &child : m_children )
-        child->onMousePressed( x, y );
+        child->onMouseButtonPressed( x, y, button, child->containsPoint( x, y ) );
 }
 
-void View::onMouseReleased( int x, int y )
+void View::onMouseButtonReleased( int x,
+                                  int y,
+                                  sf::Mouse::Button button,
+                                  bool inFocus )
 {
     for ( const auto &child : m_children )
-        child->onMouseReleased( x, y );
-}
-
-void View::onMouseMoved( int x, int y )
-{
-    for ( const auto &child : m_children )
-        child->onMouseMoved( x, y );
+        child->onMouseButtonReleased( x, y, button, child->containsPoint( x, y ) );
 }
 
 void View::onTextEntered( char c )
@@ -215,44 +215,48 @@ float View::getFitHeight( void )
     return fitHeight;
 }
 
-void LayeredView::onMousePressed( int x, int y )
+void LayeredView::onMouseButtonPressed( int x,
+                                        int y,
+                                        sf::Mouse::Button button,
+                                        bool inFocus )
 {
+    bool foundInFocusComponent = false;
+
     for ( auto rit = m_children.rbegin(); rit != m_children.rend(); ++rit )
     {
         const auto &child = *rit;
 
-        if ( child->containsPoint( x, y ) )
+        if ( !foundInFocusComponent && child->containsPoint( x, y ) )
         {
-            child->onMousePressed( x, y );
-            break;
+            foundInFocusComponent = true;
+            child->onMouseButtonPressed( x, y, button, true );
+        }
+        else
+        {
+            child->onMouseButtonPressed( x, y, button, false );
         }
     }
 }
 
-void LayeredView::onMouseReleased( int x, int y )
+void LayeredView::onMouseButtonReleased( int x,
+                                         int y,
+                                         sf::Mouse::Button button,
+                                         bool inFocus )
 {
+    bool foundInFocusComponent = false;
+
     for ( auto rit = m_children.rbegin(); rit != m_children.rend(); ++rit )
     {
         const auto &child = *rit;
 
-        if ( child->containsPoint( x, y ) )
+        if ( !foundInFocusComponent && child->containsPoint( x, y ) )
         {
-            child->onMouseReleased( x, y );
-            break;
+            foundInFocusComponent = true;
+            child->onMouseButtonReleased( x, y, button, true );
         }
-    }
-}
-
-void LayeredView::onMouseMoved( int x, int y )
-{
-    for ( auto rit = m_children.rbegin(); rit != m_children.rend(); ++rit )
-    {
-        const auto &child = *rit;
-
-        if ( child->containsPoint( x, y ) )
+        else
         {
-            child->onMouseMoved( x, y );
-            break;
+            child->onMouseButtonReleased( x, y, button, false );
         }
     }
 }

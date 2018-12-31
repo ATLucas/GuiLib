@@ -12,7 +12,7 @@ public:
 
     virtual void initialize( sf::RenderWindow &window ) override;
 
-    virtual void updateSizeAndPostion( sf::RenderWindow &window ) override;
+    virtual void update( sf::RenderWindow &window ) override;
 
     virtual void draw( sf::RenderWindow &window ) override;
 
