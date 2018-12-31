@@ -215,6 +215,48 @@ float View::getFitHeight( void )
     return fitHeight;
 }
 
+void LayeredView::onMousePressed( int x, int y )
+{
+    for ( auto rit = m_children.rbegin(); rit != m_children.rend(); ++rit )
+    {
+        const auto &child = *rit;
+
+        if ( child->containsPoint( x, y ) )
+        {
+            child->onMousePressed( x, y );
+            break;
+        }
+    }
+}
+
+void LayeredView::onMouseReleased( int x, int y )
+{
+    for ( auto rit = m_children.rbegin(); rit != m_children.rend(); ++rit )
+    {
+        const auto &child = *rit;
+
+        if ( child->containsPoint( x, y ) )
+        {
+            child->onMouseReleased( x, y );
+            break;
+        }
+    }
+}
+
+void LayeredView::onMouseMoved( int x, int y )
+{
+    for ( auto rit = m_children.rbegin(); rit != m_children.rend(); ++rit )
+    {
+        const auto &child = *rit;
+
+        if ( child->containsPoint( x, y ) )
+        {
+            child->onMouseMoved( x, y );
+            break;
+        }
+    }
+}
+
 float HorizontalView::getFitWidth( void )
 {
     float fitWidth = getModeState().leftPadding + getModeState().rightPadding;

@@ -52,9 +52,6 @@ protected:
 
     virtual void setActualHeight( float height ) override { m_actualHeight = height; };
 
-
-    // Implementations of pure-virtual Component functions:
-
     virtual void onMousePressed( int x, int y ) override;
 
     virtual void onMouseReleased( int x, int y ) override;
@@ -88,6 +85,14 @@ class LayeredView: public View
 public:
 
     LayeredView( const std::string &name = "<NameNotSet>" ) : View( name ) {};
+
+protected:
+
+    virtual void onMousePressed( int x, int y ) override;
+
+    virtual void onMouseReleased( int x, int y ) override;
+
+    virtual void onMouseMoved( int x, int y ) override;
 
 }; // end class LayeredView
 

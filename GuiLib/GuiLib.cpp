@@ -82,6 +82,14 @@ void Gui::run( void )
                 if ( event.text.unicode < 128 )
                     m_mainViewInterface->onTextEntered( static_cast<char>( event.text.unicode ) );
             }
+            else if ( event.type == sf::Event::KeyPressed )
+            {
+                if ( event.key.code == sf::Keyboard::Escape )
+                {
+                    m_window.close();
+                    break;
+                }
+            }
 
             // Update the view hierarchy.
             m_mainViewInterface->updateSizeAndPostion( m_window );

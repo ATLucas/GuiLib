@@ -15,72 +15,58 @@ void Canvas3D::initialize( sf::RenderWindow &window )
     glClearDepth( 1.f );
     glDisable( GL_LIGHTING );
 
-    float viewportWidth = static_cast<float>( window.getSize().x );
-    float viewportHeight = static_cast<float>( window.getSize().y );
-
-    // Set the viewport
-    glViewport( 0, 0, viewportWidth, viewportHeight );
-
-    // Setup a perspective projection
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
-    GLfloat ratio = viewportWidth / viewportHeight;
-    glFrustum( -ratio, ratio, -1.f, 1.f, 1.f, 500.f );
-
     // Define a 3D cube (6 faces made of 2 triangles composed by 3 vertices)
     static const GLfloat cube[] =
     {
-        // positions    // texture coordinates
-        -20, -20, -20,  0, 0,
-        -20,  20, -20,  1, 0,
-        -20, -20,  20,  0, 1,
-        -20, -20,  20,  0, 1,
-        -20,  20, -20,  1, 0,
-        -20,  20,  20,  1, 1,
+        -20, -20, -20,
+        -20,  20, -20,
+        -20, -20,  20,
+        -20, -20,  20,
+        -20,  20, -20,
+        -20,  20,  20,
 
-         20, -20, -20,  0, 0,
-         20,  20, -20,  1, 0,
-         20, -20,  20,  0, 1,
-         20, -20,  20,  0, 1,
-         20,  20, -20,  1, 0,
-         20,  20,  20,  1, 1,
+         20, -20, -20,
+         20,  20, -20,
+         20, -20,  20,
+         20, -20,  20,
+         20,  20, -20,
+         20,  20,  20,
 
-        -20, -20, -20,  0, 0,
-         20, -20, -20,  1, 0,
-        -20, -20,  20,  0, 1,
-        -20, -20,  20,  0, 1,
-         20, -20, -20,  1, 0,
-         20, -20,  20,  1, 1,
+        -20, -20, -20,
+         20, -20, -20,
+        -20, -20,  20,
+        -20, -20,  20,
+         20, -20, -20,
+         20, -20,  20,
 
-        -20,  20, -20,  0, 0,
-         20,  20, -20,  1, 0,
-        -20,  20,  20,  0, 1,
-        -20,  20,  20,  0, 1,
-         20,  20, -20,  1, 0,
-         20,  20,  20,  1, 1,
+        -20,  20, -20,
+         20,  20, -20,
+        -20,  20,  20,
+        -20,  20,  20,
+         20,  20, -20,
+         20,  20,  20,
 
-        -20, -20, -20,  0, 0,
-         20, -20, -20,  1, 0,
-        -20,  20, -20,  0, 1,
-        -20,  20, -20,  0, 1,
-         20, -20, -20,  1, 0,
-         20,  20, -20,  1, 1,
+        -20, -20, -20,
+         20, -20, -20,
+        -20,  20, -20,
+        -20,  20, -20,
+         20, -20, -20,
+         20,  20, -20,
 
-        -20, -20,  20,  0, 0,
-         20, -20,  20,  1, 0,
-        -20,  20,  20,  0, 1,
-        -20,  20,  20,  0, 1,
-         20, -20,  20,  1, 0,
-         20,  20,  20,  1, 1
+        -20, -20,  20,
+         20, -20,  20,
+        -20,  20,  20,
+        -20,  20,  20,
+         20, -20,  20,
+         20,  20,  20
     };
 
     // Enable position and texture coordinates vertex components
     glEnableClientState( GL_VERTEX_ARRAY );
-    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-    glVertexPointer( 3, GL_FLOAT, 5 * sizeof( GLfloat ), cube );
-    glTexCoordPointer( 2, GL_FLOAT, 5 * sizeof( GLfloat ), cube + 3 );
+    glVertexPointer( 3, GL_FLOAT, 3 * sizeof( GLfloat ), cube );
 
     // Disable normal and color vertex components
+    glDisableClientState( GL_TEXTURE_COORD_ARRAY );
     glDisableClientState( GL_NORMAL_ARRAY );
     glDisableClientState( GL_COLOR_ARRAY );
 
@@ -92,6 +78,31 @@ void Canvas3D::initialize( sf::RenderWindow &window )
 void Canvas3D::updateSizeAndPostion( sf::RenderWindow &window )
 {
     Component::updateSizeAndPostion( window );
+
+    window.popGLStates();
+
+    window.setActive( true );
+
+    GLfloat viewportWidth = static_cast<GLfloat>( m_actualWidth );
+    GLfloat viewportHeight = static_cast<GLfloat>( m_actualHeight );
+    GLfloat viewportX = static_cast<GLfloat>( m_actualX );
+    GLfloat viewportY = static_cast<GLfloat>( window.getSize().y - m_actualY - m_actualHeight );
+    GLfloat ratio = viewportWidth / viewportHeight;
+
+    // Set the viewport
+    glViewport( static_cast<GLint>( viewportX ),
+                static_cast<GLint>( viewportY ),
+                static_cast<GLsizei>( viewportWidth ),
+                static_cast<GLsizei>( viewportHeight ) );
+
+    // Setup a perspective projection
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    glFrustum( -ratio, ratio, -1.f, 1.f, 1.f, 500.f );
+
+    window.setActive( false );
+
+    window.pushGLStates();
 }
 
 void Canvas3D::draw( sf::RenderWindow &window )
@@ -125,8 +136,6 @@ void Canvas3D::draw( sf::RenderWindow &window )
     glDrawArrays( GL_TRIANGLES, 0, 36 );
 
     window.setActive( false );
-
-    window.display();
 
     window.pushGLStates();
 }

@@ -20,7 +20,7 @@ Gui::Config CubeMaker::getConfig( void )
     config.width = 1600;
     config.height = 900;
     config.isFullscreen = false;
-    config.mainViewLayout = ViewLayout::Vertical;
+    config.mainViewLayout = ViewLayout::Layered;
 
     return config;
 }
@@ -37,7 +37,7 @@ void CubeMaker::initialize( void )
     shared_ptr<HorizontalView> topMenu = make_shared<HorizontalView>( "Top Menu" );
     topMenu->setWidth( Component::SizeType::Fill );
     topMenu->setHeight( Component::SizeType::Fit );
-    topMenu->setColor( sf::Color( 50, 50, 60 ) );
+    topMenu->setColor( sf::Color( 150, 155, 155, 50 ) );
     topMenu->setPadding( 10 );
     
     shared_ptr<Button> openButton = make_shared<Button>( "Open Button" );
@@ -47,6 +47,7 @@ void CubeMaker::initialize( void )
     openButton->setFont( m_monserratFont );
     openButton->setTextSize( 24 );
     openButton->setTextColor( sf::Color::White );
+    openButton->setColor( sf::Color( 50, 55, 55, 100 ) );
     openButton->setPadding( 10 );
     openButton->setMargin( 10 );
     openButton->setColor( sf::Color::Green, Component::Mode::Active );
@@ -61,6 +62,7 @@ void CubeMaker::initialize( void )
     saveButton->setFont( m_monserratFont );
     saveButton->setTextSize( 24 );
     saveButton->setTextColor( sf::Color::White );
+    saveButton->setColor( sf::Color( 50, 55, 55, 100 ) );
     saveButton->setPadding( 10 );
     saveButton->setMargin( 10 );
     saveButton->setColor( sf::Color::Green, Component::Mode::Active );
@@ -74,6 +76,7 @@ void CubeMaker::initialize( void )
     textInput->setFont( m_monserratFont );
     textInput->setTextSize( 24 );
     textInput->setTextColor( sf::Color::White );
+    textInput->setColor( sf::Color( 50, 55, 55, 100 ) );
     textInput->setPadding( 10 );
     textInput->setMargin( 10 );
     textInput->setBorderThickness( 1, Component::Mode::Active );
@@ -84,8 +87,8 @@ void CubeMaker::initialize( void )
     canvas->setWidth( Component::SizeType::Fill );
     canvas->setHeight( Component::SizeType::Fill );
 
-    mainView->addChild( topMenu );
     mainView->addChild( canvas );
+    mainView->addChild( topMenu );
     topMenu->addChild( openButton );
     topMenu->addChild( saveButton );
     topMenu->addChild( textInput );
